@@ -1,0 +1,246 @@
+# PandaAI - Plateforme d'apprentissage IA avec pandas kawaii
+
+## Architecture & Stack Technique
+
+### Frontend
+- **Framework**: Next.js 14 (App Router)
+- **Styling**: Tailwind CSS avec design pastel/kawaii
+- **State Management**: Zustand pour l'état global
+- **Forms**: React Hook Form
+- **Data Fetching**: TanStack Query (React Query)
+- **Authentification**: Clerk (free tier)
+
+### Backend & Data
+- **Base de données**: Supabase (PostgreSQL + Storage)
+- **ORM**: Prisma
+- **API**: tRPC ou Next.js API Routes
+- **LLM**: Hugging Face Inference API (free tier)
+
+### Déploiement
+- **Hosting**: Vercel (hobby tier gratuit)
+- **CI/CD**: GitHub Actions
+- **Analytics**: Vercel Analytics
+
+## Design System & UI/UX
+
+### Palette de couleurs
+- **Primaire**: Violet pastel (#B794F6, #9F7AEA)
+- **Secondaire**: Rose pastel (#F687B3, #ED64A6)
+- **Accent**: Vert pastel (#9AE6B4, #68D391)
+- **Neutre**: Gris pastel (#E2E8F0, #CBD5E0)
+- **Fond**: Blanc cassé (#FEFEFE, #F7FAFC)
+
+### Typographie
+- **Primaire**: Inter (clean, moderne)
+- **Secondaire**: Poppins (pour les titres kawaii)
+- **Tailles**: text-xs à text-6xl avec échelle harmonieuse
+
+### Composants kawaii
+- Coins arrondis généreux (rounded-2xl, rounded-3xl)
+- Ombres douces (shadow-lg, shadow-xl)
+- Animations subtiles (hover, focus, loading)
+- Illustrations panda intégrées
+- Micro-interactions délicates
+
+## Fonctionnalités Principales
+
+### 🏠 Dashboard "Ma Forêt Pandatique"
+- Vue d'ensemble colorée (statuts, XP, points)
+- "Panda du jour" : mini-challenge aléatoire
+- Compte à rebours hackathon (19 juillet)
+
+### 📚 Apprentissage
+- Génération de cours IA à partir de syllabus/URL
+- Panda-Coach : agent IA pour plans d'étude
+- Spaced Repetition avec flashcards kawaii
+
+### 🖋️ Pratique & Quiz
+- Import PDF/Word → quiz automatiques
+- Exercices corrigés pas-à-pas par IA
+- Mode examen blanc avec minuterie
+
+### 📊 Analytics & Suivi
+- Tableau de bord de progression
+- Classement "Panda Leaderboard"
+- Insights IA personnalisés
+
+### 💬 Social & Communauté
+- Chatbot PandaAI 24/7
+- Study Rooms vidéo + tableau blanc
+- Forum "Sous-bois" par matière
+
+### 🐼 Profil & Gamification
+- Avatars pandas personnalisables
+- Badges et succès
+- Portefeuille de réalisations
+
+## Règles de Développement
+
+### Code Quality
+- **TypeScript obligatoire** avec strict mode
+- **ESLint + Prettier** configurés
+- **Husky** pour pre-commit hooks
+- **Tests**: Jest + React Testing Library
+- **Naming**: camelCase pour variables, PascalCase pour composants
+
+### Performance
+- **Lazy loading** des composants lourds
+- **Image optimization** avec next/image
+- **Bundle splitting** automatique
+- **Memoization** avec React.memo, useMemo, useCallback
+
+### Responsive Design
+- **Mobile-first** approach
+- **Breakpoints**: sm (640px), md (768px), lg (1024px), xl (1280px)
+- **Grid system**: CSS Grid + Flexbox
+- **Touch-friendly**: boutons minimum 44px
+- **Accessibilité**: ARIA labels, contraste, navigation clavier
+
+### Structure des Composants
+```
+/components
+  /ui (primitives Tailwind)
+    /Button
+    /Input
+    /Modal
+    /Card
+  /features (logique métier)
+    /Dashboard
+    /Quiz
+    /Profile
+  /layout
+    /Header
+    /Sidebar
+    /Footer
+```
+
+### API & Data
+- **Validation**: Zod pour schémas TypeScript
+- **Error handling**: Try/catch avec messages utilisateur
+- **Loading states**: Skeleletons cohérents
+- **Caching**: React Query avec stale-while-revalidate
+- **Optimistic updates** pour UX fluide
+
+### Animations & Interactions
+- **Framer Motion** pour animations complexes
+- **Tailwind animations** pour micro-interactions
+- **Transitions**: ease-in-out, durées courtes (200-300ms)
+- **Feedback visuel**: loading spinners, success states
+- **Gestures**: swipe, drag pour mobile
+
+### Sécurité
+- **Sanitization** des inputs utilisateur
+- **Rate limiting** sur API routes
+- **CSP headers** configurés
+- **HTTPS only** en production
+- **Validation côté serveur** systématique
+
+## Patterns & Conventions
+
+### Hooks personnalisés
+- `useAuth()` pour gestion utilisateur
+- `usePandaAvatar()` pour personnalisation
+- `useQuizGenerator()` pour génération IA
+- `useSpacedRepetition()` pour algorithme SRS
+
+### Store Zustand
+```typescript
+interface AppState {
+  user: User | null
+  pandaAvatar: PandaConfig
+  currentQuiz: Quiz | null
+  studyStreak: number
+  notifications: Notification[]
+}
+```
+
+### Gestion d'erreurs
+- **Error boundaries** React
+- **Toast notifications** pour feedback
+- **Fallbacks** gracieux
+- **Retry mechanisms** automatiques
+
+### Internationalisation
+- **next-i18next** pour FR/EN
+- **Pluralisation** correcte
+- **Formatage dates/nombres** selon locale
+
+## Contraintes Techniques
+
+### Performance Targets
+- **Lighthouse score**: 90+ sur toutes les métriques
+- **First Contentful Paint**: < 2s
+- **Time to Interactive**: < 3s
+- **Core Web Vitals**: Excellent
+
+### Compatibilité
+- **Navigateurs**: Chrome 90+, Firefox 88+, Safari 14+
+- **Mobiles**: iOS 14+, Android 10+
+- **Accessibilité**: WCAG 2.1 AA minimum
+
+### Limites Free Tier
+- **Clerk**: 10,000 utilisateurs actifs/mois
+- **Supabase**: 500 MB storage, 2GB bandwidth
+- **Vercel**: 100 GB bandwidth, 1000 serverless functions
+- **Hugging Face**: 30K tokens/mois
+
+## Workflow de Développement
+
+### Git Flow
+- **main**: production
+- **develop**: intégration
+- **feature/***: nouvelles fonctionnalités
+- **hotfix/***: corrections urgentes
+
+### Commit Messages
+```
+feat: ajoute génération quiz IA
+fix: corrige responsive dashboard mobile
+style: améliore animations panda
+docs: met à jour README API
+```
+
+### Déploiement
+- **Preview**: automatique sur chaque PR
+- **Staging**: déploiement sur merge develop
+- **Production**: déploiement manuel depuis main
+
+## Priorités MVP (12 jours)
+
+### Sprint 1 (4 jours)
+- Setup projet + auth Clerk
+- Landing page responsive
+- Dashboard de base
+- Upload de documents
+
+### Sprint 2 (4 jours)
+- Génération quiz IA
+- Système de scoring
+- Profil utilisateur
+- Avatars pandas
+
+### Sprint 3 (4 jours)
+- Analytics de progression
+- Spaced repetition
+- Polish UI/UX
+- Déploiement production
+
+## Instructions Spécifiques
+
+### Toujours privilégier
+1. **User Experience** avant tout
+2. **Simplicité** dans l'implémentation
+3. **Performance** mobile
+4. **Accessibilité** native
+5. **Feedback** utilisateur immédiat
+
+### Éviter absolument
+- Dépendances inutiles
+- Over-engineering
+- Animations trop lentes
+- Design inconsistant
+- Code dupliqué
+
+---
+
+**Objectif**: Créer une expérience d'apprentissage magique, motivante et efficace avec des pandas kawaii qui rendent l'étude addictive ! 🐼✨
