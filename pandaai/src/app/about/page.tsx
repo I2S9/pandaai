@@ -1,4 +1,6 @@
-'use client';
+export const metadata = {
+  title: 'About us',
+};
 import Image from 'next/image';
 import Footer from '../../components/layout/Footer';
 

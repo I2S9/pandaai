@@ -1,3 +1,7 @@
+export const metadata = {
+  title: 'AI Tutoring',
+};
+
 import Image from 'next/image';
 import Footer from '../../components/layout/Footer';
 
