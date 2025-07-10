@@ -113,18 +113,24 @@ function Carousel() {
     { Icon: Star, color: 'text-[#3730A3]' }, // violet foncé
   ];
   return (
-    <div className="w-full flex flex-col items-center my-24 z-30 relative">
+    <div className="w-full flex flex-col items-center my-24 relative">
       <h2 className="text-4xl md:text-5xl font-bold text-center mb-10">Loved by +2300 students worldwide</h2>
-      <div className="relative w-full flex justify-center items-center min-h-[480px] z-30">
-        <div className="absolute left-1/2 -translate-x-[calc(50%+380px)] top-1/2 -translate-y-1/2 z-40">
-          <button aria-label="prev" onClick={() => { setDirection(-1); setIdx(i => (i - 1 + testimonials.length) % testimonials.length); }} className="bg-white border border-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow hover:bg-gray-50"><span className="text-2xl">&#8592;</span></button>
+      <div className="relative w-full flex justify-center items-center min-h-[480px]">
+        <div className="absolute left-1/2 -translate-x-[calc(50%+380px)] top-1/2 -translate-y-1/2 z-10">
+          <button 
+            aria-label="prev" 
+            onClick={() => { setDirection(-1); setIdx(i => (i - 1 + testimonials.length) % testimonials.length); }} 
+            className="bg-white border border-gray-200 rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:bg-gray-50 hover:shadow-xl transition-all duration-200 cursor-pointer z-20"
+          >
+            <span className="text-2xl">&#8592;</span>
+          </button>
         </div>
-        <div className="overflow-visible w-full max-w-3xl flex items-center justify-center z-40">
-          <div className="relative w-full h-[440px] flex items-center justify-center z-40">
+        <div className="overflow-visible w-full max-w-3xl flex items-center justify-center">
+          <div className="relative w-full h-[440px] flex items-center justify-center">
             {testimonials.map((t, i) => {
               const { Icon, color } = iconData[i % iconData.length];
               return (
-                <div key={i} className={`absolute left-0 right-0 mx-auto p-12 rounded-3xl shadow-lg flex flex-col items-center min-w-[420px] max-w-2xl transition-all duration-500 ${i === idx ? 'scale-100 opacity-100 z-50 ' + t.color + ' ' + t.rotate : 'scale-95 opacity-0 z-10 pointer-events-none'} ${direction === 1 && i === idx ? 'animate-slide-in-right' : ''} ${direction === -1 && i === idx ? 'animate-slide-in-left' : ''}`} style={{top: 0, bottom: 0, margin: 'auto'}}>
+                <div key={i} className={`absolute left-0 right-0 mx-auto p-12 rounded-3xl shadow-lg flex flex-col items-center min-w-[420px] max-w-2xl transition-all duration-500 ${i === idx ? 'scale-100 opacity-100 z-20 ' + t.color + ' ' + t.rotate : 'scale-95 opacity-0 z-10 pointer-events-none'} ${direction === 1 && i === idx ? 'animate-slide-in-right' : ''} ${direction === -1 && i === idx ? 'animate-slide-in-left' : ''}`} style={{top: 0, bottom: 0, margin: 'auto'}}>
                   <div className="mb-6 flex items-center justify-center w-16 h-16 mx-auto bg-white rounded-2xl shadow-sm">
                     <Icon size={40} className={`mx-auto ${color}`} />
                   </div>
@@ -135,11 +141,17 @@ function Carousel() {
             })}
           </div>
         </div>
-        <div className="absolute right-1/2 translate-x-[calc(50%+380px)] top-1/2 -translate-y-1/2 z-40">
-          <button aria-label="next" onClick={() => { setDirection(1); setIdx(i => (i + 1) % testimonials.length); }} className="bg-white border border-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow hover:bg-gray-50"><span className="text-2xl">&#8594;</span></button>
+        <div className="absolute right-1/2 translate-x-[calc(50%+380px)] top-1/2 -translate-y-1/2 z-10">
+          <button 
+            aria-label="next" 
+            onClick={() => { setDirection(1); setIdx(i => (i + 1) % testimonials.length); }} 
+            className="bg-white border border-gray-200 rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:bg-gray-50 hover:shadow-xl transition-all duration-200 cursor-pointer z-20"
+          >
+            <span className="text-2xl">&#8594;</span>
+          </button>
         </div>
       </div>
-      <div className="flex gap-2 mt-6 z-40">
+      <div className="flex gap-2 mt-6 z-10">
         {testimonials.map((_, i) => (
           <span key={i} className={`w-3 h-3 rounded-full ${i === idx ? 'bg-[#DDBDFD]' : 'bg-gray-300'}`}></span>
         ))}

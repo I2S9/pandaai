@@ -43,7 +43,7 @@ export default function Header() {
   let hoverTimeout: NodeJS.Timeout;
 
   return (
-    <header className="w-full flex items-center justify-center py-6 px-4 md:px-12 bg-white/80 shadow-sm sticky top-0 z-30">
+    <header className="w-full flex items-center justify-center py-6 px-4 md:px-12 bg-white/80 shadow-sm sticky top-0 z-50">
       <nav className="flex items-center gap-10 w-full max-w-6xl mx-auto">
         {/* Logo + titre */}
         <Link 
