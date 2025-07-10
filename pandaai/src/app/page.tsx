@@ -1,6 +1,9 @@
 'use client';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import { BookOpen, GraduationCap, School, Lightbulb, Star } from 'lucide-react';
+import AlternatingFeatures from '../components/features/AlternatingFeatures';
+import Footer from '../components/layout/Footer';
 
 const testimonials = [
   {
@@ -102,33 +105,41 @@ function Carousel() {
     }, 5000);
     return () => clearInterval(timer);
   }, []);
+  const iconData = [
+    { Icon: School, color: 'text-[#3A7D44]' }, // vert
+    { Icon: BookOpen, color: 'text-[#B794F6]' }, // violet
+    { Icon: GraduationCap, color: 'text-[#3182CE]' }, // bleu
+    { Icon: Lightbulb, color: 'text-[#B7791F]' }, // jaune
+    { Icon: Star, color: 'text-[#3730A3]' }, // violet foncé
+  ];
   return (
-    <div className="w-full flex flex-col items-center my-24">
-      <h2 className="text-4xl md:text-5xl font-bold text-center mb-10">Loved by 2300+ students worldwide</h2>
-      <div className="relative w-full flex justify-center items-center min-h-[480px]">
-        <div className="absolute left-1/2 -translate-x-[calc(50%+380px)] top-1/2 -translate-y-1/2 z-10">
+    <div className="w-full flex flex-col items-center my-24 z-30 relative">
+      <h2 className="text-4xl md:text-5xl font-bold text-center mb-10">Loved by +2300 students worldwide</h2>
+      <div className="relative w-full flex justify-center items-center min-h-[480px] z-30">
+        <div className="absolute left-1/2 -translate-x-[calc(50%+380px)] top-1/2 -translate-y-1/2 z-40">
           <button aria-label="prev" onClick={() => { setDirection(-1); setIdx(i => (i - 1 + testimonials.length) % testimonials.length); }} className="bg-white border border-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow hover:bg-gray-50"><span className="text-2xl">&#8592;</span></button>
         </div>
-        <div className="overflow-hidden w-full max-w-3xl flex items-center justify-center">
-          <div className="relative w-full h-[440px] flex items-center justify-center">
-            {testimonials.map((t, i) => (
-              <div key={i} className={`absolute left-0 right-0 mx-auto p-12 rounded-3xl shadow-lg flex flex-col items-center min-w-[420px] max-w-2xl transition-all duration-500 ${i === idx ? 'scale-100 opacity-100 z-20 ' + t.color + ' ' + t.rotate : 'scale-95 opacity-0 z-10 pointer-events-none'} ${direction === 1 && i === idx ? 'animate-slide-in-right' : ''} ${direction === -1 && i === idx ? 'animate-slide-in-left' : ''}`} style={{top: 0, bottom: 0, margin: 'auto'}}>
-                <div className="mb-6 flex items-center justify-center w-16 h-16 mx-auto bg-white rounded-2xl shadow-sm">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-gray-600">
-                    <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="currentColor"/>
-                  </svg>
+        <div className="overflow-visible w-full max-w-3xl flex items-center justify-center z-40">
+          <div className="relative w-full h-[440px] flex items-center justify-center z-40">
+            {testimonials.map((t, i) => {
+              const { Icon, color } = iconData[i % iconData.length];
+              return (
+                <div key={i} className={`absolute left-0 right-0 mx-auto p-12 rounded-3xl shadow-lg flex flex-col items-center min-w-[420px] max-w-2xl transition-all duration-500 ${i === idx ? 'scale-100 opacity-100 z-50 ' + t.color + ' ' + t.rotate : 'scale-95 opacity-0 z-10 pointer-events-none'} ${direction === 1 && i === idx ? 'animate-slide-in-right' : ''} ${direction === -1 && i === idx ? 'animate-slide-in-left' : ''}`} style={{top: 0, bottom: 0, margin: 'auto'}}>
+                  <div className="mb-6 flex items-center justify-center w-16 h-16 mx-auto bg-white rounded-2xl shadow-sm">
+                    <Icon size={40} className={`mx-auto ${color}`} />
+                  </div>
+                  <div className="text-3xl md:text-4xl font-bold text-center text-gray-700 mb-6">{t.text}</div>
+                  <div className="text-lg font-semibold text-gray-800 text-center">{t.author} <span className="text-gray-500 font-normal">- {t.role}</span></div>
                 </div>
-                <div className="text-3xl md:text-4xl font-bold text-center text-gray-700 mb-6">{t.text}</div>
-                <div className="text-lg font-semibold text-gray-800 text-center">{t.author} <span className="text-gray-500 font-normal">- {t.role}</span></div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
-        <div className="absolute right-1/2 translate-x-[calc(50%+380px)] top-1/2 -translate-y-1/2 z-10">
+        <div className="absolute right-1/2 translate-x-[calc(50%+380px)] top-1/2 -translate-y-1/2 z-40">
           <button aria-label="next" onClick={() => { setDirection(1); setIdx(i => (i + 1) % testimonials.length); }} className="bg-white border border-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow hover:bg-gray-50"><span className="text-2xl">&#8594;</span></button>
         </div>
       </div>
-      <div className="flex gap-2 mt-6">
+      <div className="flex gap-2 mt-6 z-40">
         {testimonials.map((_, i) => (
           <span key={i} className={`w-3 h-3 rounded-full ${i === idx ? 'bg-[#DDBDFD]' : 'bg-gray-300'}`}></span>
         ))}
@@ -140,7 +151,7 @@ function Carousel() {
 function Pricing() {
   const [plan, setPlan] = useState<'monthly' | 'yearly'>('monthly');
   return (
-    <section className="w-full flex flex-col items-center my-24">
+    <section id="pricing" className="w-full flex flex-col items-center my-24 scroll-mt-28">
       <h2 className="text-4xl md:text-5xl font-bold text-center mb-10">Pricing</h2>
       <div className="flex gap-4 mb-8 bg-white rounded-2xl p-2 shadow border border-[#DDBDFD]">
         <button onClick={() => setPlan('monthly')} className={`px-6 py-2 rounded-xl font-semibold text-lg transition ${plan === 'monthly' ? 'bg-[#DDBDFD] text-white shadow' : 'text-black hover:bg-[#F7F0FF]'}`}>Monthly</button>
@@ -217,7 +228,7 @@ export default function Home() {
               <div className="h-2 bg-[#DDBDFD] rounded-none mb-4 mt-2 w-full" />
             </div>
             <p className="text-center text-gray-700 max-w-2xl mb-6 text-xl md:text-2xl font-medium">Turn any content into smart flashcards, get instant AI feedback, and study the Panda way—stress-free and memorable.</p>
-            <button className="bg-[#DDBDFD] hover:bg-[#B373E4] active:scale-95 text-white font-bold rounded-[2.5rem] px-10 py-4 text-2xl shadow-lg border-2 border-[#DDBDFD] transition mb-2" style={{boxShadow: '0 8px 0 #B373E4'}}>Start learning</button>
+            <button className="bg-[#DDBDFD] hover:translate-y-1 hover:shadow-sm active:translate-y-1 active:shadow-sm text-white font-bold rounded-[2.5rem] px-10 py-4 text-2xl shadow-lg border-2 border-[#DDBDFD] transition mb-2 cursor-pointer" style={{boxShadow: '0 8px 0 #B373E4'}}>Start learning</button>
           </div>
           {/* Bambou à droite */}
           <div className="hidden md:flex flex-col items-center justify-center ml-2">
@@ -232,23 +243,9 @@ export default function Home() {
           <div className="w-2/3 md:w-[600px] h-2 bg-white rounded-full mt-4" />
         </div>
       </section>
-      {/* Spaced Repetition Section */}
-      <section className="w-full max-w-5xl flex flex-col md:flex-row items-center justify-between gap-10 px-4 mb-20">
-        <div className="flex flex-col md:flex-row items-center gap-8 w-full">
-          <div className="flex-shrink-0">
-            <Image src="/space-repetition.png" alt="Spaced Repetition Graph" width={340} height={220} className="rounded-2xl" />
-          </div>
-          <div className="flex flex-col items-start max-w-xl">
-            <h3 className="font-semibold text-3xl mb-2 flex items-center gap-3">
-              <span className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-[#DDBDFD]/40 mr-2">
-                <svg width="32" height="32" fill="none" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#DDBDFD"/><rect x="13" y="8" width="6" height="16" rx="3" fill="#fff"/></svg>
-              </span>
-              Spaced Repetition Algorithm
-            </h3>
-            <p className="text-lg text-gray-700">An adaptive algorithm that automatically schedules review sessions just before forgetfulness sets in, for each user</p>
-          </div>
-        </div>
-      </section>
+      {/* Alternating Features Section */}
+      {/** Nouvelle section alternée texte/image **/}
+      <AlternatingFeatures />
       {/* Carousel Section */}
       <Carousel />
       {/* FAQ Section */}
@@ -256,14 +253,7 @@ export default function Home() {
       {/* Pricing Section */}
       <Pricing />
       {/* Footer Section */}
-      <footer className="w-full bg-[#DDBDFD] py-12 flex flex-col items-center justify-center mt-20">
-        <div className="flex flex-col md:flex-row items-center gap-4 mb-4">
-          <Image src="/logo-pandaai.svg" alt="PandaAI Logo" width={48} height={48} />
-          <span className="text-2xl font-bold text-white">PandaAI</span>
-        </div>
-        <div className="text-white text-lg mb-2">© {new Date().getFullYear()} PandaAI. All rights reserved.</div>
-        <div className="text-white text-base">Made with love for students worldwide · <a href="mailto:support@pandaai.com" className="underline">Contact us</a></div>
-      </footer>
+      <Footer />
     </div>
   );
 }
