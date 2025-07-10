@@ -82,20 +82,37 @@ export default function Header() {
               <div className="absolute left-0 mt-4 w-[420px] bg-white rounded-2xl shadow-2xl border border-gray-200 p-4 z-50 flex flex-col gap-2">
                 <div className="grid grid-cols-2 gap-4">
                   {features.map((f, i) => (
-                    <div key={i} className="flex items-start gap-3 p-2 rounded-xl hover:bg-neutral-light transition cursor-pointer">
-                      <div className={`flex-shrink-0 ${i === 1 ? 'mt-2' : 'mt-1'}`}>
-                        <Image 
-                          src={f.icon} 
-                          alt={f.title} 
-                          width={i === 0 ? 32 : 24} 
-                          height={i === 0 ? 32 : 24} 
-                        />
+                    f.title === 'Quiz Generator' ? (
+                      <Link href="/quiz-generator" key={i} className="flex items-start gap-3 p-2 rounded-xl hover:bg-neutral-light transition cursor-pointer">
+                        <div className={`flex-shrink-0 ${i === 1 ? 'mt-2' : 'mt-1'}`}>
+                          <Image 
+                            src={f.icon} 
+                            alt={f.title} 
+                            width={i === 0 ? 32 : 24} 
+                            height={i === 0 ? 32 : 24} 
+                          />
+                        </div>
+                        <div>
+                          <div className="font-semibold text-base text-gray-900">{f.title}</div>
+                          <div className="text-sm text-gray-500">{f.desc}</div>
+                        </div>
+                      </Link>
+                    ) : (
+                      <div key={i} className="flex items-start gap-3 p-2 rounded-xl hover:bg-neutral-light transition cursor-pointer">
+                        <div className={`flex-shrink-0 ${i === 1 ? 'mt-2' : 'mt-1'}`}>
+                          <Image 
+                            src={f.icon} 
+                            alt={f.title} 
+                            width={i === 0 ? 32 : 24} 
+                            height={i === 0 ? 32 : 24} 
+                          />
+                        </div>
+                        <div>
+                          <div className="font-semibold text-base text-gray-900">{f.title}</div>
+                          <div className="text-sm text-gray-500">{f.desc}</div>
+                        </div>
                       </div>
-                      <div>
-                        <div className="font-semibold text-base text-gray-900">{f.title}</div>
-                        <div className="text-sm text-gray-500">{f.desc}</div>
-                      </div>
-                    </div>
+                    )
                   ))}
                 </div>
                 <div className="mt-3 px-2 py-2 text-center text-sm text-gray-600 bg-gray-50 rounded-xl">
