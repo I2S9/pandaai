@@ -97,6 +97,21 @@ export default function Header() {
                           <div className="text-sm text-gray-500">{f.desc}</div>
                         </div>
                       </Link>
+                    ) : f.title === 'Panda Coach' ? (
+                      <Link href="/panda-coach" key={i} className="flex items-start gap-3 p-2 rounded-xl hover:bg-neutral-light transition cursor-pointer">
+                        <div className={`flex-shrink-0 ${i === 1 ? 'mt-2' : 'mt-1'}`}>
+                          <Image 
+                            src={f.icon} 
+                            alt={f.title} 
+                            width={i === 0 ? 32 : 24} 
+                            height={i === 0 ? 32 : 24} 
+                          />
+                        </div>
+                        <div>
+                          <div className="font-semibold text-base text-gray-900">{f.title}</div>
+                          <div className="text-sm text-gray-500">{f.desc}</div>
+                        </div>
+                      </Link>
                     ) : (
                       <div key={i} className="flex items-start gap-3 p-2 rounded-xl hover:bg-neutral-light transition cursor-pointer">
                         <div className={`flex-shrink-0 ${i === 1 ? 'mt-2' : 'mt-1'}`}>
