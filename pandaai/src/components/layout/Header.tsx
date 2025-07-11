@@ -81,24 +81,16 @@ export default function Header() {
             {open && (
               <div className="absolute left-0 mt-4 w-[420px] bg-white rounded-2xl shadow-2xl border border-gray-200 p-4 z-50 flex flex-col gap-2">
                 <div className="grid grid-cols-2 gap-4">
-                  {features.map((f, i) => (
-                    f.title === 'Quiz Generator' ? (
-                      <Link href="/quiz-generator" key={i} className="flex items-start gap-3 p-2 rounded-xl hover:bg-neutral-light transition cursor-pointer">
-                        <div className={`flex-shrink-0 ${i === 1 ? 'mt-2' : 'mt-1'}`}>
-                          <Image 
-                            src={f.icon} 
-                            alt={f.title} 
-                            width={i === 0 ? 32 : 24} 
-                            height={i === 0 ? 32 : 24} 
-                          />
-                        </div>
-                        <div>
-                          <div className="font-semibold text-base text-gray-900">{f.title}</div>
-                          <div className="text-sm text-gray-500">{f.desc}</div>
-                        </div>
-                      </Link>
-                    ) : f.title === 'Panda Coach' ? (
-                      <Link href="/panda-coach" key={i} className="flex items-start gap-3 p-2 rounded-xl hover:bg-neutral-light transition cursor-pointer">
+                  {features.map((f, i) => {
+                    let href = '';
+                    if (f.title === 'Quiz Generator') href = '/quiz-generator';
+                    else if (f.title === 'Panda Coach') href = '/panda-coach';
+                    else if (f.title === 'Exam Mode') href = '/exam-mode';
+                    else if (f.title === 'Flashcards') href = '/flashcards';
+                    else if (f.title === 'Smart Notes') href = '/smart-notes';
+                    
+                    return href ? (
+                      <Link href={href} key={i} className="flex items-start gap-3 p-2 rounded-xl hover:bg-neutral-light transition cursor-pointer">
                         <div className={`flex-shrink-0 ${i === 1 ? 'mt-2' : 'mt-1'}`}>
                           <Image 
                             src={f.icon} 
@@ -127,8 +119,8 @@ export default function Header() {
                           <div className="text-sm text-gray-500">{f.desc}</div>
                         </div>
                       </div>
-                    )
-                  ))}
+                    );
+                  })}
                 </div>
                 <div className="mt-3 px-2 py-2 text-center text-sm text-gray-600 bg-gray-50 rounded-xl">
                   Got another feature in mind? <a href="#" className="text-primary underline">Let us know</a>
