@@ -41,14 +41,23 @@ export default function AlternatingFeatures() {
         >
           {/* Texte */}
           <div className={`flex-1 flex flex-col ${idx % 2 === 1 ? 'items-end text-right' : 'items-start text-left'}`}>
-            <h3 className="font-semibold text-3xl mb-2 flex items-center gap-3">
+            <h3 className="font-semibold text-xl md:text-2xl lg:text-3xl mb-2 flex items-center gap-3">
               <span
-                className="inline-flex items-center justify-center w-12 h-12 rounded-lg mr-2"
+                className="inline-flex items-center justify-center w-12 h-12 rounded-lg mr-2 flex-shrink-0"
                 style={{ backgroundColor: feature.color }}
               >
                 <Image src="/icon.svg" alt="icon" width={28} height={28} />
               </span>
-              {feature.title}
+              <span 
+                className={`leading-tight ${feature.title === 'Spaced Repetition Algorithm' ? 'text-lg md:text-xl lg:text-2xl' : ''}`}
+                style={{ 
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis'
+                }}
+              >
+                {feature.title}
+              </span>
             </h3>
             <p className="text-lg text-gray-700 max-w-xl">{feature.description}</p>
           </div>

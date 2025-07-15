@@ -100,8 +100,8 @@ export default function Header() {
                             height={i === 0 ? 32 : 24} 
                           />
                         </div>
-                        <div>
-                          <div className="font-semibold text-base text-gray-900">{f.title}</div>
+                        <div className="min-w-0 flex-1">
+                          <div className="font-semibold text-base text-gray-900 whitespace-nowrap">{f.title}</div>
                           <div className="text-sm text-gray-500">{f.desc}</div>
                         </div>
                       </Link>
@@ -115,8 +115,8 @@ export default function Header() {
                             height={i === 0 ? 32 : 24} 
                           />
                         </div>
-                        <div>
-                          <div className="font-semibold text-base text-gray-900">{f.title}</div>
+                        <div className="min-w-0 flex-1">
+                          <div className="font-semibold text-base text-gray-900 whitespace-nowrap">{f.title}</div>
                           <div className="text-sm text-gray-500">{f.desc}</div>
                         </div>
                       </div>
