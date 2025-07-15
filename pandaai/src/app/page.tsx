@@ -3,6 +3,8 @@
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { BookOpen, GraduationCap, School, Lightbulb, Star } from 'lucide-react';
+import { useUser, SignInButton } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
 import AlternatingFeatures from '../components/features/AlternatingFeatures';
 import Footer from '../components/layout/Footer';
 
@@ -223,6 +225,17 @@ function FAQ() {
 }
 
 export default function Home() {
+  const { isSignedIn, isLoaded } = useUser();
+  const router = useRouter();
+
+  const handleStartLearning = () => {
+    if (isSignedIn) {
+      // Si l'utilisateur est connecté, rediriger vers quiz-generator
+      router.push('/quiz-generator');
+    }
+    // Si l'utilisateur n'est pas connecté, les boutons SignIn/SignUp s'afficheront
+  };
+
   return (
     <div className="flex flex-col items-center w-full">
       {/* Hero Section */}
@@ -241,7 +254,26 @@ export default function Home() {
               <div className="h-2 bg-[#DDBDFD] rounded-none mb-4 mt-2 w-full" />
             </div>
             <p className="text-center text-gray-700 max-w-2xl mb-6 text-xl md:text-2xl font-medium">Turn any content into smart flashcards, get instant AI feedback, and study the Panda way—stress-free and memorable.</p>
-            <button className="bg-[#DDBDFD] hover:translate-y-1 hover:shadow-sm active:translate-y-1 active:shadow-sm text-white font-bold rounded-[2.5rem] px-10 py-4 text-2xl shadow-lg border-2 border-[#DDBDFD] transition mb-2 cursor-pointer" style={{boxShadow: '0 8px 0 #B373E4'}}>Start learning</button>
+            
+            {isLoaded && (
+              <div className="flex flex-col items-center gap-4">
+                {isSignedIn ? (
+                  <button 
+                    onClick={handleStartLearning}
+                    className="bg-[#DDBDFD] hover:translate-y-1 hover:shadow-sm active:translate-y-1 active:shadow-sm text-white font-bold rounded-[2.5rem] px-10 py-4 text-2xl shadow-lg border-2 border-[#DDBDFD] transition mb-2 cursor-pointer" 
+                    style={{boxShadow: '0 8px 0 #B373E4'}}
+                  >
+                    Start learning
+                  </button>
+                ) : (
+                  <SignInButton mode="modal">
+                    <button className="bg-[#DDBDFD] hover:translate-y-1 hover:shadow-sm active:translate-y-1 active:shadow-sm text-white font-bold rounded-[2.5rem] px-10 py-4 text-2xl shadow-lg border-2 border-[#DDBDFD] transition mb-2 cursor-pointer" style={{boxShadow: '0 8px 0 #B373E4'}}>
+                      Sign in to start
+                    </button>
+                  </SignInButton>
+                )}
+              </div>
+            )}
           </div>
           {/* Bambou à droite */}
           <div className="hidden md:flex flex-col items-center justify-center ml-2">
