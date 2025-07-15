@@ -88,6 +88,7 @@ export default function Header() {
                     else if (f.title === 'Exam Mode') href = '/exam-mode';
                     else if (f.title === 'Flashcards') href = '/flashcards';
                     else if (f.title === 'Smart Notes') href = '/smart-notes';
+                    else if (f.title === 'Spaced Repetition') href = '/space-repetition';
                     
                     return href ? (
                       <Link href={href} key={i} className="flex items-start gap-3 p-2 rounded-xl hover:bg-neutral-light transition cursor-pointer">
