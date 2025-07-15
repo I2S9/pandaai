@@ -8,7 +8,7 @@ export default function Footer() {
         <span className="text-2xl font-bold text-white">PandaAI</span>
       </div>
       <div className="text-white text-lg mb-2">© {new Date().getFullYear()} PandaAI. All rights reserved.</div>
-      <div className="text-white text-base">Made with love for students worldwide · <a href="mailto:support@pandaai.com" className="underline">Contact us</a></div>
+      <div className="text-white text-base">Made with love for students worldwide · <a href="mailto:pandas.ai.app@gmail.com" className="underline">Contact us</a></div>
     </footer>
   );
 } 

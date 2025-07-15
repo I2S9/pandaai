@@ -124,7 +124,7 @@ export default function Header() {
                   })}
                 </div>
                 <div className="mt-3 px-2 py-2 text-center text-sm text-gray-600 bg-gray-50 rounded-xl">
-                  Got another feature in mind? <a href="#" className="text-primary underline">Let us know</a>
+                  Got another feature in mind? <a href="mailto:pandas.ai.app@gmail.com" className="text-primary underline">Let us know</a>
                 </div>
               </div>
             )}
