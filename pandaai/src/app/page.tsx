@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { BookOpen, GraduationCap, School, Lightbulb, Star } from 'lucide-react';
 import { useUser, SignInButton } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
+
 import AlternatingFeatures from '../components/features/AlternatingFeatures';
 import Footer from '../components/layout/Footer';
 
@@ -165,6 +166,48 @@ function Carousel() {
 
 function Pricing() {
   const [plan, setPlan] = useState<'monthly' | 'yearly'>('monthly');
+  const [isPremiumLoading, setIsPremiumLoading] = useState(false);
+  const { isSignedIn } = useUser();
+  const router = useRouter();
+
+  const handleCheckout = async (planType: 'free' | 'premium') => {
+    if (planType === 'free') {
+      router.push('/quiz-generator');
+      return;
+    }
+
+    if (!isSignedIn) {
+      // Rediriger vers la connexion si pas connecté
+      return;
+    }
+
+    setIsPremiumLoading(true);
+    try {
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          plan: planType,
+          interval: plan,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        console.error('Erreur lors de la création de la session de paiement');
+      }
+    } catch (error) {
+      console.error('Erreur lors du checkout:', error);
+    } finally {
+      setIsPremiumLoading(false);
+    }
+  };
+
   return (
     <section id="pricing" className="w-full flex flex-col items-center my-24 scroll-mt-28">
       <h2 className="text-4xl md:text-5xl font-bold text-center mb-10">Pricing</h2>
@@ -182,7 +225,13 @@ function Pricing() {
             <li className="mb-2">Quiz generator</li>
             <li className="mb-2">AI feedback (limited)</li>
           </ul>
-          <button className="bg-[#DDBDFD] hover:bg-[#B373E4] text-white font-bold rounded-xl px-8 py-3 text-lg shadow border-2 border-[#DDBDFD] transition w-full max-w-[200px]">Get started</button>
+          <button 
+            onClick={() => handleCheckout('free')}
+            className="bg-[#DDBDFD] hover:translate-y-1 hover:shadow-sm active:translate-y-1 active:shadow-sm text-white font-bold rounded-xl px-8 py-3 text-lg shadow-lg border-2 border-[#DDBDFD] transition w-full max-w-[200px] cursor-pointer" 
+            style={{boxShadow: '0 4px 0 #B373E4'}}
+          >
+            Get started
+          </button>
         </div>
         <div className="flex-1 bg-[#DDBDFD] rounded-2xl shadow p-8 flex flex-col items-center border-4 border-[#DDBDFD] scale-105 h-[520px]">
           <div className="text-2xl font-bold mb-2 text-white text-center">Premium Plan</div>
@@ -195,7 +244,14 @@ function Pricing() {
             <li className="mb-2">Unlimited AI feedback</li>
             <li className="mb-2">Exam mode</li>
           </ul>
-          <button className="bg-white hover:bg-[#F7F0FF] text-black font-bold rounded-xl px-8 py-3 text-lg shadow border-2 border-white transition w-full max-w-[200px]">Go Premium</button>
+          <button 
+            onClick={() => handleCheckout('premium')}
+            disabled={isPremiumLoading}
+            className="bg-white hover:translate-y-1 hover:shadow-sm active:translate-y-1 active:shadow-sm text-black font-bold rounded-xl px-8 py-3 text-lg shadow-lg border-2 border-white transition w-full max-w-[200px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" 
+            style={{boxShadow: '0 4px 0 #E2E8F0'}}
+          >
+            {isPremiumLoading ? 'Loading' : 'Go Premium'}
+          </button>
         </div>
       </div>
     </section>
