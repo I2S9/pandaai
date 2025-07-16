@@ -23,10 +23,10 @@ export default function DashboardPage() {
   const firstName = user?.firstName || 'Panda';
 
   const avatarColors = {
-    green: '#E8F5E8',
-    blue: '#E8F1EC', 
-    yellow: '#FFF7D1',
-    pink: '#FDE7F3'
+    green: '#CAE7C4',
+    blue: '#CADCF7', 
+    yellow: '#FFEBAE',
+    pink: '#F8D3DF'
   };
 
   const handleAvatarChange = (avatar: 'green' | 'blue' | 'yellow' | 'pink') => {
@@ -187,7 +187,9 @@ export default function DashboardPage() {
       {showAvatarModal && (
         <>
           {/* Overlay semi-transparent pour assombrir la page */}
-          <div className="fixed inset-0 bg-black bg-opacity-10 z-[9998]" style={{ top: '80px' }}></div>
+          <div className="fixed inset-0 bg-[rgba(0,0,0,0.5)] z-[9998] pointer-events-none">
+  <div className="sticky top-0 z-[9999] h-[80px] w-full"></div>
+</div>
           {/* Popup */}
           <div className="fixed inset-0 flex items-center justify-center z-[9999] pointer-events-none">
             <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl pointer-events-auto">
