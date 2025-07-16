@@ -52,7 +52,7 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <main className="flex-1 bg-white flex flex-col items-center justify-start pt-16 pb-16">
+      <main className="flex-1 bg-white flex flex-col items-center justify-start pt-16 pb-24">
         {/* Boutons onglets */}
         <div className="flex gap-8 mb-16">
           <button
@@ -127,9 +127,9 @@ export default function DashboardPage() {
               </div>
             </>
           ) : (
-            <div className="flex gap-12 px-8 justify-end">
-              {/* Profil utilisateur */}
-              <div className="flex flex-col items-center max-w-md">
+            <div className="flex gap-32 px-8">
+              {/* Profil utilisateur - centré sur la moitié gauche */}
+              <div className="flex flex-col items-center w-1/2">
                 {/* Avatar avec bouton d'édition */}
                 <div className="relative mb-8">
                   <div className="cursor-pointer" onClick={() => setShowAvatarModal(true)}>
@@ -171,11 +171,103 @@ export default function DashboardPage() {
                 </div>
               </div>
 
-              {/* Section Badges */}
-              <div className="flex-1 max-w-md">
+              {/* Section Badges - centrée sur la moitié droite */}
+              <div className="flex flex-col items-center w-1/2">
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">Your badges</h3>
-                <div className="bg-gray-50 rounded-2xl p-8 min-h-[300px] flex items-center justify-center">
-                  <p className="text-gray-500 text-lg">No badges yet. Keep learning to earn them!</p>
+                <div className="grid grid-cols-4 gap-6 w-full max-w-lg">
+                  {/* Première ligne */}
+                  <div className="flex flex-col items-center">
+                    <Image 
+                      src="/the-coolest.png" 
+                      alt="The Coolest Badge" 
+                      width={120} 
+                      height={120} 
+                      className="rounded-xl mb-3"
+                    />
+                    <span className="text-xs text-gray-600 text-center whitespace-nowrap">The Coolest</span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <Image 
+                      src="/the-adventurer.png" 
+                      alt="The Adventurer Badge" 
+                      width={120} 
+                      height={120} 
+                      className="rounded-xl mb-3"
+                    />
+                    <span className="text-xs text-gray-600 text-center whitespace-nowrap">The Adventurer</span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <Image 
+                      src="/the-dreamer.png" 
+                      alt="The Dreamer Badge" 
+                      width={120} 
+                      height={120} 
+                      className="rounded-xl mb-3"
+                    />
+                    <span className="text-xs text-gray-600 text-center whitespace-nowrap">The Dreamer</span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <Image 
+                      src="/the-warrior.png" 
+                      alt="The Warrior Badge" 
+                      width={120} 
+                      height={120} 
+                      className="rounded-xl mb-3"
+                    />
+                    <span className="text-xs text-gray-600 text-center whitespace-nowrap">The Warrior</span>
+                  </div>
+                  
+                  {/* Deuxième ligne - badges vides */}
+                  <div className="flex flex-col items-center">
+                    <div className="w-24 h-24 bg-gray-200 rounded-full mb-3 flex items-center justify-center">
+                      <span className="text-gray-400 text-2xl">?</span>
+                    </div>
+                    <span className="text-xs text-gray-400 text-center whitespace-nowrap">Locked</span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <div className="w-24 h-24 bg-gray-200 rounded-full mb-3 flex items-center justify-center">
+                      <span className="text-gray-400 text-2xl">?</span>
+                    </div>
+                    <span className="text-xs text-gray-400 text-center whitespace-nowrap">Locked</span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <div className="w-24 h-24 bg-gray-200 rounded-full mb-3 flex items-center justify-center">
+                      <span className="text-gray-400 text-2xl">?</span>
+                    </div>
+                    <span className="text-xs text-gray-400 text-center whitespace-nowrap">Locked</span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <div className="w-24 h-24 bg-gray-200 rounded-full mb-3 flex items-center justify-center">
+                      <span className="text-gray-400 text-2xl">?</span>
+                    </div>
+                    <span className="text-xs text-gray-400 text-center whitespace-nowrap">Locked</span>
+                  </div>
+                  
+                  {/* Troisième ligne - badges vides */}
+                  <div className="flex flex-col items-center">
+                    <div className="w-24 h-24 bg-gray-200 rounded-full mb-3 flex items-center justify-center">
+                      <span className="text-gray-400 text-2xl">?</span>
+                    </div>
+                    <span className="text-xs text-gray-400 text-center whitespace-nowrap">Locked</span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <div className="w-24 h-24 bg-gray-200 rounded-full mb-3 flex items-center justify-center">
+                      <span className="text-gray-400 text-2xl">?</span>
+                    </div>
+                    <span className="text-xs text-gray-400 text-center whitespace-nowrap">Locked</span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <div className="w-24 h-24 bg-gray-200 rounded-full mb-3 flex items-center justify-center">
+                      <span className="text-gray-400 text-2xl">?</span>
+                    </div>
+                    <span className="text-xs text-gray-400 text-center whitespace-nowrap">Locked</span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <div className="w-24 h-24 bg-gray-200 rounded-full mb-3 flex items-center justify-center">
+                      <span className="text-gray-400 text-2xl">?</span>
+                    </div>
+                    <span className="text-xs text-gray-400 text-center whitespace-nowrap">Locked</span>
+                  </div>
                 </div>
               </div>
             </div>
