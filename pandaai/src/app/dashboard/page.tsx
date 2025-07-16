@@ -3,9 +3,53 @@
 import { useState } from 'react';
 import Footer from '../../components/layout/Footer';
 import React from 'react';
+import { useUser } from '@clerk/nextjs';
+import Image from 'next/image';
 
 export default function DashboardPage() {
   const [tab, setTab] = useState<'stats' | 'profile'>('stats');
+  const [showAvatarModal, setShowAvatarModal] = useState(false);
+  const [selectedAvatar, setSelectedAvatar] = useState<'green' | 'blue' | 'yellow' | 'pink'>('pink');
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [userName, setUserName] = useState('');
+  const [displayName, setDisplayName] = useState('');
+  const [subjects, setSubjects] = useState([
+    'Game design', 'Finance', 'Physics', 'Science', 'Mathematics', 
+    'Paint Art', 'Computer Science', 'UX & UI', 'Volleyball'
+  ]);
+  const [newSubject, setNewSubject] = useState('');
+  
+  const { user } = useUser();
+  const firstName = user?.firstName || 'Panda';
+
+  const avatarColors = {
+    green: '#E8F5E8',
+    blue: '#E8F1EC', 
+    yellow: '#FFF7D1',
+    pink: '#FDE7F3'
+  };
+
+  const handleAvatarChange = (avatar: 'green' | 'blue' | 'yellow' | 'pink') => {
+    setSelectedAvatar(avatar);
+    setShowAvatarModal(false);
+  };
+
+  const addSubject = () => {
+    if (newSubject.trim() && !subjects.includes(newSubject.trim())) {
+      setSubjects([...subjects, newSubject.trim()]);
+      setNewSubject('');
+    }
+  };
+
+  const removeSubject = (subjectToRemove: string) => {
+    setSubjects(subjects.filter(subject => subject !== subjectToRemove));
+  };
+
+  const saveProfile = () => {
+    setDisplayName(userName);
+    setShowEditModal(false);
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <main className="flex-1 bg-white flex flex-col items-center justify-start pt-16 pb-16">
@@ -25,7 +69,7 @@ export default function DashboardPage() {
           </button>
         </div>
         {/* Contenu selon l'onglet */}
-        <div className="w-full max-w-3xl">
+        <div className="w-full max-w-6xl">
           {tab === 'stats' ? (
             <>
               <div className="flex flex-col items-center justify-center py-8">
@@ -83,10 +127,184 @@ export default function DashboardPage() {
               </div>
             </>
           ) : (
-            <div className="text-center text-3xl font-semibold text-gray-800 py-24">Your profile section (à compléter)</div>
+            <div className="flex gap-12 px-8 justify-end">
+              {/* Profil utilisateur */}
+              <div className="flex flex-col items-center max-w-md">
+                {/* Avatar avec bouton d'édition */}
+                <div className="relative mb-8">
+                  <div className="cursor-pointer" onClick={() => setShowAvatarModal(true)}>
+                    <Image 
+                      src={`/${selectedAvatar}-avatar.png`} 
+                      alt="User Avatar" 
+                      width={200} 
+                      height={200} 
+                      className="rounded-2xl"
+                    />
+                  </div>
+                  <button 
+                    className="absolute -bottom-2 -right-2 w-10 h-10 bg-black rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-800 transition"
+                    onClick={() => setShowEditModal(true)}
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
+                
+                {/* Nom d'utilisateur */}
+                <h2 className="text-3xl font-bold text-gray-900 mb-8">
+                  Panda {displayName || firstName}
+                </h2>
+                
+                {/* Matières */}
+                <div className="flex flex-wrap gap-3 justify-center">
+                  {subjects.map((subject, index) => (
+                    <span 
+                      key={index}
+                      className="px-4 py-2 rounded-full text-sm font-medium text-gray-800"
+                      style={{ backgroundColor: avatarColors[selectedAvatar] }}
+                    >
+                      {subject}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Section Badges */}
+              <div className="flex-1 max-w-md">
+                <h3 className="text-2xl font-bold text-gray-900 mb-6">Your badges</h3>
+                <div className="bg-gray-50 rounded-2xl p-8 min-h-[300px] flex items-center justify-center">
+                  <p className="text-gray-500 text-lg">No badges yet. Keep learning to earn them!</p>
+                </div>
+              </div>
+            </div>
           )}
         </div>
       </main>
+
+      {/* Modal de sélection d'avatar */}
+      {showAvatarModal && (
+        <>
+          {/* Overlay semi-transparent pour assombrir la page */}
+          <div className="fixed inset-0 bg-black bg-opacity-10 z-[9998]" style={{ top: '80px' }}></div>
+          {/* Popup */}
+          <div className="fixed inset-0 flex items-center justify-center z-[9999] pointer-events-none">
+            <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl pointer-events-auto">
+              <h3 className="text-2xl font-bold text-center mb-6">Choose your favourite avatar</h3>
+              <div className="grid grid-cols-2 gap-4">
+                {(['green', 'blue', 'yellow', 'pink'] as const).map((avatar) => (
+                  <button
+                    key={avatar}
+                    className={`p-4 rounded-xl border-2 transition-all ${
+                      selectedAvatar === avatar 
+                        ? 'border-gray-800 scale-105' 
+                        : 'border-gray-200 hover:border-gray-400'
+                    }`}
+                    onClick={() => handleAvatarChange(avatar)}
+                  >
+                    <Image 
+                      src={`/${avatar}-avatar.png`} 
+                      alt={`${avatar} avatar`} 
+                      width={100} 
+                      height={100} 
+                      className="w-full h-auto"
+                    />
+                  </button>
+                ))}
+              </div>
+              <button
+                className="mt-6 w-full py-3 bg-gray-800 text-white rounded-xl font-semibold hover:bg-gray-700 transition"
+                onClick={() => setShowAvatarModal(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Modal d'édition du profil */}
+      {showEditModal && (
+        <>
+          {/* Overlay semi-transparent pour assombrir la page */}
+          <div className="fixed inset-0 bg-[rgba(0,0,0,0.5)] z-[9998] pointer-events-none">
+            <div className="sticky top-0 z-[9999] h-[80px] w-full"></div>
+          </div>          {/* Popup */}
+          <div className="fixed inset-0 flex items-center justify-center z-[9999] pointer-events-none">
+            <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4 max-h-[80vh] overflow-y-auto shadow-2xl relative pointer-events-auto">
+              <h3 className="text-2xl font-bold text-center mb-6">Edit your profile</h3>
+              
+              {/* Nom d'utilisateur */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                <input
+                  type="text"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  placeholder="Enter your username"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              {/* Matières */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Subjects</label>
+                <div className="flex gap-2 mb-3">
+                  <input
+                    type="text"
+                    value={newSubject}
+                    onChange={(e) => setNewSubject(e.target.value)}
+                    placeholder="Add new subject"
+                    className="flex-1 px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    onKeyPress={(e) => e.key === 'Enter' && addSubject()}
+                  />
+                  <button
+                    onClick={addSubject}
+                    className="px-4 py-2 bg-black text-white rounded-xl hover:bg-gray-800 transition font-semibold"
+                  >
+                    Add
+                  </button>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {subjects.map((subject, index) => (
+                    <span 
+                      key={index}
+                      className="px-3 py-1 rounded-full text-sm font-medium text-gray-800 flex items-center gap-2"
+                      style={{ backgroundColor: avatarColors[selectedAvatar] }}
+                    >
+                      {subject}
+                      <button
+                        onClick={() => removeSubject(subject)}
+                        className="w-4 h-4 rounded-full bg-gray-600 text-white flex items-center justify-center text-xs hover:bg-gray-800 transition"
+                      >
+                        ×
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Boutons */}
+              <div className="flex gap-3">
+                <button
+                  className="flex-1 py-3 bg-black text-white rounded-xl font-semibold hover:bg-gray-800 transition"
+                  onClick={saveProfile}
+                >
+                  Save
+                </button>
+                <button
+                  className="flex-1 py-3 bg-gray-200 text-black rounded-xl font-semibold hover:bg-gray-300 transition"
+                  onClick={() => setShowEditModal(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
       <Footer />
     </div>
   );
@@ -192,4 +410,4 @@ function ActivityCard({ pbAlign = false }) {
       </div>
     </div>
   );
-} 
+}
