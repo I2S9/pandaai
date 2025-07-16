@@ -16,14 +16,11 @@ export default function AboutPage() {
           
           {/* Image */}
           <div className="mb-8 max-w-2xl mx-auto">
-            <Image 
+            <img 
               src="/our-mission.png" 
               alt="Our Mission - A friendly panda with speech bubbles" 
-              width={600} 
-              height={400} 
-              priority
-              className="w-full h-auto rounded-lg shadow-lg"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="w-full h-auto rounded-lg shadow-lg max-w-full"
+              style={{ maxWidth: '600px' }}
             />
           </div>
           

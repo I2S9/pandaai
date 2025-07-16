@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { BookOpen, GraduationCap, School, Lightbulb, Star } from 'lucide-react';
 import { useUser, SignInButton } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 
@@ -14,7 +13,7 @@ const testimonials = [
     color: 'bg-[#DDFDEB]',
     icon: (
       <div className="w-16 h-16 bg-[#B9FBC0] rounded-2xl flex items-center justify-center">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#B9FBC0"/><path d="M10 14c0 2 2 4 6 4s6-2 6-4" stroke="#3A7D44" strokeWidth="2" strokeLinecap="round"/><circle cx="12" cy="12" r="2" fill="#3A7D44"/><circle cx="20" cy="12" r="2" fill="#3A7D44"/></svg>
+        <Image src="/dalton-review.svg" alt="Dalton review icon" width={32} height={32} />
       </div>
     ),
     text: 'A truly unique, useful and highly functional website that has helped all students in my school.',
@@ -26,7 +25,7 @@ const testimonials = [
     color: 'bg-[#FDEBFF]',
     icon: (
       <div className="w-16 h-16 bg-[#E9D8FD] rounded-2xl flex items-center justify-center">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#E9D8FD"/><rect x="10" y="10" width="12" height="12" rx="6" fill="#B794F6"/></svg>
+        <Image src="/lina-review.svg" alt="Lina review icon" width={32} height={32} />
       </div>
     ),
     text: 'PandaAI made studying fun and effective. I love the flashcards and the panda avatars!',
@@ -38,7 +37,7 @@ const testimonials = [
     color: 'bg-[#E0F2FE]',
     icon: (
       <div className="w-16 h-16 bg-[#B6E0FE] rounded-2xl flex items-center justify-center">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#B6E0FE"/><rect x="14" y="8" width="4" height="16" rx="2" fill="#3182CE"/></svg>
+        <Image src="/alex-review.svg" alt="Alex review icon" width={32} height={32} />
       </div>
     ),
     text: 'The spaced repetition algorithm is a game changer. My grades improved a lot!',
@@ -50,7 +49,7 @@ const testimonials = [
     color: 'bg-[#FFF9DB]',
     icon: (
       <div className="w-16 h-16 bg-[#FDE68A] rounded-2xl flex items-center justify-center">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#FDE68A"/><rect x="12" y="12" width="8" height="8" rx="4" fill="#B7791F"/></svg>
+        <Image src="/marat-review.svg" alt="Marat review icon" width={32} height={32} />
       </div>
     ),
     text: 'I really enjoy this website! It helps a lot with all the IB stuff you need to manage! I dont know what I would do without it!',
@@ -62,7 +61,7 @@ const testimonials = [
     color: 'bg-[#E0E7FF]',
     icon: (
       <div className="w-16 h-16 bg-[#A7BFFF] rounded-2xl flex items-center justify-center">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#A7BFFF"/><rect x="10" y="10" width="12" height="12" rx="6" fill="#3730A3"/></svg>
+        <Image src="/sophie-review.svg" alt="Sophie review icon" width={32} height={32} />
       </div>
     ),
     text: 'The best platform for exam prep. The analytics and exam mode are so useful!',
@@ -109,13 +108,7 @@ function Carousel() {
     }, 5000);
     return () => clearInterval(timer);
   }, []);
-  const iconData = [
-    { Icon: School, color: 'text-[#3A7D44]' }, // vert
-    { Icon: BookOpen, color: 'text-[#B794F6]' }, // violet
-    { Icon: GraduationCap, color: 'text-[#3182CE]' }, // bleu
-    { Icon: Lightbulb, color: 'text-[#B7791F]' }, // jaune
-    { Icon: Star, color: 'text-[#3730A3]' }, // violet foncé
-  ];
+  
   return (
     <div className="w-full flex flex-col items-center my-24 relative">
       <h2 className="text-4xl md:text-5xl font-bold text-center mb-10">Loved by +2300 students worldwide</h2>
@@ -132,11 +125,10 @@ function Carousel() {
         <div className="overflow-visible w-full max-w-3xl flex items-center justify-center">
           <div className="relative w-full h-[440px] flex items-center justify-center">
             {testimonials.map((t, i) => {
-              const { Icon, color } = iconData[i % iconData.length];
               return (
                 <div key={i} className={`absolute left-0 right-0 mx-auto p-12 rounded-3xl shadow-lg flex flex-col items-center min-w-[420px] max-w-2xl transition-all duration-500 ${i === idx ? 'scale-100 opacity-100 z-20 ' + t.color + ' ' + t.rotate : 'scale-95 opacity-0 z-10 pointer-events-none'} ${direction === 1 && i === idx ? 'animate-slide-in-right' : ''} ${direction === -1 && i === idx ? 'animate-slide-in-left' : ''}`} style={{top: 0, bottom: 0, margin: 'auto'}}>
-                  <div className="mb-6 flex items-center justify-center w-16 h-16 mx-auto bg-white rounded-2xl shadow-sm">
-                    <Icon size={40} className={`mx-auto ${color}`} />
+                  <div className="mb-6">
+                    {t.icon}
                   </div>
                   <div className="text-3xl md:text-4xl font-bold text-center text-gray-700 mb-6">{t.text}</div>
                   <div className="text-lg font-semibold text-gray-800 text-center">{t.author} <span className="text-gray-500 font-normal">- {t.role}</span></div>
