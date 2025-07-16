@@ -15,14 +15,15 @@ export default function AboutPage() {
           </h1>
           
           {/* Image */}
-          <div className="mb-8">
+          <div className="mb-8 max-w-2xl mx-auto">
             <Image 
               src="/our-mission.png" 
               alt="Our Mission - A friendly panda with speech bubbles" 
               width={600} 
               height={400} 
               priority
-              style={{ maxWidth: '100%', height: 'auto' }}
+              className="w-full h-auto rounded-lg shadow-lg"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           </div>
           
@@ -41,13 +42,14 @@ export default function AboutPage() {
           </h2>
           
           {/* Image */}
-          <div className="mb-8">
+          <div className="mb-8 max-w-2xl mx-auto">
             <Image 
               src="/our-vision.png" 
               alt="Our Vision - A group of pandas walking towards a bright horizon" 
               width={600} 
               height={400} 
-              style={{ maxWidth: '100%', height: 'auto' }}
+              className="w-full h-auto rounded-lg shadow-lg"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           </div>
           
@@ -66,13 +68,14 @@ export default function AboutPage() {
           </h2>
           
           {/* Image */}
-          <div className="mb-8">
+          <div className="mb-8 max-w-2xl mx-auto">
             <Image 
               src="/our-values.png" 
               alt="Our Values - Core principles that guide our mission" 
               width={600} 
               height={400} 
-              style={{ maxWidth: '100%', height: 'auto' }}
+              className="w-full h-auto rounded-lg shadow-lg"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           </div>
           
