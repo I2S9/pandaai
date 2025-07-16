@@ -1,17 +1,26 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 
+// Désactiver le pré-rendu pour cette page
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function SuccessPage() {
-  const searchParams = useSearchParams();
-  const sessionId = searchParams.get('session_id');
+  const [sessionId, setSessionId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Ici vous pourriez vérifier le statut de la session avec Stripe
+    // Récupérer les paramètres d'URL côté client uniquement
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      const sessionIdParam = urlParams.get('session_id');
+      setSessionId(sessionIdParam);
+    }
+    
+    // Simuler un délai de chargement
     const timer = setTimeout(() => setIsLoading(false), 2000);
     return () => clearTimeout(timer);
   }, []);
