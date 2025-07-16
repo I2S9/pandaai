@@ -4,10 +4,6 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-// Désactiver le pré-rendu pour cette page
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
-
 export default function SuccessPage() {
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
