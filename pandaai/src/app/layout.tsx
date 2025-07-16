@@ -1,4 +1,4 @@
-import './globals.css';
+import '@/app/globals.css';
 import { ReactNode } from 'react';
 import { ClerkProvider } from '@clerk/nextjs';
 import Header from '../components/layout/Header';
