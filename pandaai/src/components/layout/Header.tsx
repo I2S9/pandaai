@@ -68,7 +68,7 @@ export default function Header() {
           >
             <button
               className={`flex items-center gap-1 text-lg font-semibold px-3 py-2 rounded-xl transition
-                ${open ? 'bg-gray-100 shadow-md' : 'hover:bg-gray-100 hover:shadow-md'}
+                ${open ? 'bg-gray-50 shadow-md' : 'hover:bg-gray-50 hover:shadow-md'}
               `}
             >
               Features
@@ -91,7 +91,7 @@ export default function Header() {
                     else if (f.title === 'Spaced Repetition') href = '/space-repetition';
                     
                     return href ? (
-                      <Link href={href} key={i} className="flex items-start gap-3 p-2 rounded-xl hover:bg-neutral-light transition cursor-pointer">
+                      <Link href={href} key={i} className="flex items-start gap-3 p-2 rounded-xl hover:bg-gray-50 transition cursor-pointer">
                         <div className={`flex-shrink-0 ${i === 1 ? 'mt-2' : 'mt-1'}`}>
                           <Image 
                             src={f.icon} 
@@ -106,7 +106,7 @@ export default function Header() {
                         </div>
                       </Link>
                     ) : (
-                      <div key={i} className="flex items-start gap-3 p-2 rounded-xl hover:bg-neutral-light transition cursor-pointer">
+                      <div key={i} className="flex items-start gap-3 p-2 rounded-xl hover:bg-gray-50 transition cursor-pointer">
                         <div className={`flex-shrink-0 ${i === 1 ? 'mt-2' : 'mt-1'}`}>
                           <Image 
                             src={f.icon} 
@@ -129,9 +129,9 @@ export default function Header() {
               </div>
             )}
           </div>
-          <Link href="/ai-tutoring" className="text-lg font-semibold px-3 py-2 rounded-xl transition hover:bg-gray-100 hover:shadow-md">Ai Tutoring</Link>
-          <Link href="/#pricing" className="text-lg font-semibold px-3 py-2 rounded-xl transition hover:bg-gray-100 hover:shadow-md">Pricing</Link>
-          <Link href="/about" className="text-lg font-semibold px-3 py-2 rounded-xl transition hover:bg-gray-100 hover:shadow-md">About us</Link>
+          <Link href="/ai-tutoring" className="text-lg font-semibold px-3 py-2 rounded-xl transition hover:bg-gray-50 hover:shadow-md">Ai Tutoring</Link>
+          <Link href="/#pricing" className="text-lg font-semibold px-3 py-2 rounded-xl transition hover:bg-gray-50 hover:shadow-md">Pricing</Link>
+          <Link href="/about" className="text-lg font-semibold px-3 py-2 rounded-xl transition hover:bg-gray-50 hover:shadow-md">About us</Link>
         </div>
 
         {/* Auth Buttons */}
@@ -140,7 +140,7 @@ export default function Header() {
             <div className="flex items-center gap-4">
               <Link 
                 href="/dashboard" 
-                className="text-lg font-semibold px-3 py-2 rounded-xl transition hover:bg-gray-100 hover:shadow-md"
+                className="text-lg font-semibold px-3 py-2 rounded-xl transition hover:bg-gray-50 hover:shadow-md"
               >
                 Dashboard
               </Link>
@@ -157,7 +157,7 @@ export default function Header() {
           ) : (
             <>
               <SignInButton mode="modal">
-                <button className="rounded-2xl px-6 py-2 text-lg font-semibold border border-gray-300 bg-white hover:bg-neutral-light transition">
+                <button className="rounded-2xl px-6 py-2 text-lg font-semibold border border-gray-300 bg-white hover:bg-gray-50 transition">
                   Login
                 </button>
               </SignInButton>

@@ -1,5 +1,6 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import type { Config } from "tailwindcss";
+
+const config: Config = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -10,31 +11,33 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#B794F6',
-          dark: '#9F7AEA',
+          DEFAULT: 'var(--color-primary)',
+          dark: 'var(--color-primary-dark)',
         },
         secondary: {
-          DEFAULT: '#F687B3',
-          dark: '#ED64A6',
+          DEFAULT: 'var(--color-secondary)',
+          dark: 'var(--color-secondary-dark)',
         },
         accent: {
-          DEFAULT: '#9AE6B4',
-          dark: '#68D391',
+          DEFAULT: 'var(--color-accent)',
+          dark: 'var(--color-accent-dark)',
         },
         neutral: {
-          light: '#E2E8F0',
-          DEFAULT: '#CBD5E0',
+          light: 'var(--color-neutral-light)',
+          DEFAULT: 'var(--color-neutral)',
         },
         background: {
-          DEFAULT: '#FEFEFE',
-          light: '#F7FAFC',
+          DEFAULT: 'var(--color-background)',
+          light: 'var(--color-background-light)',
         },
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        kawaii: ['Poppins', 'cursive'],
+        sans: ['var(--font-family-sans)'],
+        kawaii: ['var(--font-family-kawaii)'],
       },
     },
   },
   plugins: [],
-} 
+};
+
+export default config; 

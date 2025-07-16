@@ -37,7 +37,7 @@ const testimonials = [
     color: 'bg-[#E0F2FE]',
     icon: (
       <div className="w-16 h-16 bg-[#B6E0FE] rounded-2xl flex items-center justify-center">
-        <Image src="/alex-review.svg" alt="Alex review icon" width={32} height={32} />
+        <Image src="/alex-review.svg" alt="Alex review icon" width={40} height={40} />
       </div>
     ),
     text: 'The spaced repetition algorithm is a game changer. My grades improved a lot!',
@@ -49,7 +49,7 @@ const testimonials = [
     color: 'bg-[#FFF9DB]',
     icon: (
       <div className="w-16 h-16 bg-[#FDE68A] rounded-2xl flex items-center justify-center">
-        <Image src="/marat-review.svg" alt="Marat review icon" width={32} height={32} />
+        <Image src="/marat-review.svg" alt="Marat review icon" width={24} height={24} />
       </div>
     ),
     text: 'I really enjoy this website! It helps a lot with all the IB stuff you need to manage! I dont know what I would do without it!',
@@ -111,7 +111,7 @@ function Carousel() {
   
   return (
     <div className="w-full flex flex-col items-center my-24 relative">
-      <h2 className="text-4xl md:text-5xl font-bold text-center mb-10">Loved by +2300 students worldwide</h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-center mb-10">Loved by +230 students worldwide</h2>
       <div className="relative w-full flex justify-center items-center min-h-[480px]">
         <div className="absolute left-1/2 -translate-x-[calc(50%+380px)] top-1/2 -translate-y-1/2 z-10">
           <button 
@@ -301,7 +301,7 @@ export default function Home() {
               </h1>
               <div className="h-2 bg-[#DDBDFD] rounded-none mb-4 mt-2 w-full" />
             </div>
-            <p className="text-center text-gray-700 max-w-2xl mb-6 text-xl md:text-2xl font-medium">Turn any content into smart flashcards, get instant AI feedback, and study the Panda way—stress-free and memorable.</p>
+            <p className="text-center text-gray-700 max-w-4xl mb-6 text-xl md:text-2xl font-medium leading-tight">Turn any content into smart flashcards, get instant AI feedback, and study the Panda way—stress-free and memorable.</p>
             
             {isLoaded && (
               <div className="flex flex-col items-center gap-4">

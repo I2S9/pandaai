@@ -1,4 +1,4 @@
-import '@/app/globals.css';
+import './globals.css';
 import { ReactNode } from 'react';
 import { ClerkProvider } from '@clerk/nextjs';
 import Header from '../components/layout/Header';
@@ -67,8 +67,8 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body id="top" className="bg-background font-sans min-h-screen">
+      <html lang="en" className="light">
+        <body id="top" className="bg-background font-sans min-h-screen bg-white">
           <Header />
           <main>{children}</main>
         </body>

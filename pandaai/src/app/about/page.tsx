@@ -109,7 +109,7 @@ export default function AboutPage() {
           {/* Team Text */}
           <div className="max-w-4xl text-center">
             <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
-              A small, passionate team of developers, designers, and educators united by one goal: revolutionize learning.
+              For now I have developed and designed this project from A to Z but if a small passionate team of developers, designers and educators would like to join the adventure let me know!
             </p>
           </div>
         </section>
@@ -233,6 +233,18 @@ export default function AboutPage() {
                   </div>
                   <span className="text-sm font-semibold text-gray-700">Node.js</span>
                 </div>
+                <div className="flex flex-col items-center">
+                  <div className="w-20 h-20 bg-gray-100 rounded-xl flex items-center justify-center p-4 mb-3">
+                    <Image 
+                      src="/stripe.png" 
+                      alt="Stripe" 
+                      width={60} 
+                      height={60} 
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <span className="text-sm font-semibold text-gray-700">Stripe</span>
+                </div>
               </div>
               
               {/* Duplicate set for seamless loop */}
@@ -344,6 +356,18 @@ export default function AboutPage() {
                     />
                   </div>
                   <span className="text-sm font-semibold text-gray-700">Node.js</span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="w-20 h-20 bg-gray-100 rounded-xl flex items-center justify-center p-4 mb-3">
+                    <Image 
+                      src="/stripe.png" 
+                      alt="Stripe" 
+                      width={60} 
+                      height={60} 
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <span className="text-sm font-semibold text-gray-700">Stripe</span>
                 </div>
               </div>
             </div>
