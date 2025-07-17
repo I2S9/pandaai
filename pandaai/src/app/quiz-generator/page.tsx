@@ -11,7 +11,7 @@ export default function QuizGeneratorPage() {
   return (
     <div className="min-h-screen bg-[#F7FAFC] flex flex-col items-center py-12 px-4">
       {/* Titre */}
-      <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-16">How it works</h1>
+      <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-16">Quiz Generator</h1>
       {/* Étapes */}
       <div className="flex flex-col md:flex-row justify-center gap-12 w-full max-w-6xl mb-10">
         {/* Step 1 */}
