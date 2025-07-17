@@ -104,7 +104,7 @@ export default function SmartNotesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F7FAFC] flex flex-col items-center py-12 px-4">
+    <div className="min-h-screen bg-white flex flex-col items-center py-12 px-4">
       {/* Titre */}
       <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-16">Smart Notes</h1>
       
@@ -145,8 +145,8 @@ export default function SmartNotesPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Enregistrement audio */}
           <div className="flex flex-col items-center">
-            <div className="w-32 h-32 rounded-full border-4 border-[#C7A2F7] flex items-center justify-center mb-6">
-              <div className="w-20 h-20 rounded-full bg-[#C7A2F7] flex items-center justify-center">
+            <div className="w-32 h-32 rounded-full border-4 border-[#D4B5FF] flex items-center justify-center mb-6">
+              <div className="w-20 h-20 rounded-full bg-[#E6D7FF] flex items-center justify-center">
                 <svg width="32" height="32" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24">
                   <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" strokeLinecap="round" strokeLinejoin="round"/>
                   <path d="M19 10v2a7 7 0 0 1-14 0v-2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -175,8 +175,8 @@ export default function SmartNotesPage() {
 
           {/* URL YouTube */}
           <div className="flex flex-col items-center">
-            <div className="w-32 h-32 rounded-full border-4 border-[#C7A2F7] flex items-center justify-center mb-6">
-              <div className="w-20 h-20 rounded-full bg-[#C7A2F7] flex items-center justify-center">
+            <div className="w-32 h-32 rounded-full border-4 border-[#D4B5FF] flex items-center justify-center mb-6">
+              <div className="w-20 h-20 rounded-full bg-[#E6D7FF] flex items-center justify-center">
                 <svg width="32" height="32" fill="white" viewBox="0 0 24 24">
                   <circle cx="12" cy="12" r="11" fill="none" stroke="white" strokeWidth="2"/>
                   <path d="M9 6l7 6-7 6V6z"/>
@@ -191,7 +191,7 @@ export default function SmartNotesPage() {
                 value={youtubeUrl}
                 onChange={(e) => setYoutubeUrl(e.target.value)}
                 placeholder="https://youtube.com/..."
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 mb-4 focus:outline-none focus:border-[#8B3FFC] text-lg"
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 mb-4 focus:outline-none focus:border-[#D4B5FF] text-lg"
                 disabled={isProcessing}
               />
               <button

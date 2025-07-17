@@ -120,7 +120,8 @@ export default function QuizGeneratorPage() {
       </div>
       {/* Bouton principal */}
       <button
-        className="bg-[#DDBDFD] hover:bg-[#C7A2F7] text-white font-bold rounded-xl px-10 py-4 text-xl shadow transition mt-4"
+        className="bg-[#DDBDFD] hover:translate-y-1 hover:shadow-sm active:translate-y-1 active:shadow-sm text-white font-bold rounded-xl px-10 py-4 text-xl shadow-lg border-2 border-[#DDBDFD] transition cursor-pointer"
+        style={{boxShadow: '0 4px 0 #B373E4'}}
         type="button"
       >
         Generate AI Quiz
