@@ -16,7 +16,7 @@ export default function QuizGeneratorPage() {
       <div className="flex flex-col md:flex-row justify-center gap-12 w-full max-w-6xl mb-10">
         {/* Step 1 */}
         <div className="flex-1 flex flex-row items-start text-left">
-          <span className="text-[80px] font-bold text-[#C7A2F7] opacity-40 mr-4 leading-none">1</span>
+          <span className="text-[80px] font-bold text-[#F8C57C] opacity-80 mr-4 leading-none">1</span>
           <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2 whitespace-nowrap overflow-hidden text-ellipsis">Enter a prompt or upload a file</h2>
             <p className="text-base text-gray-800 max-w-xs">Start your quiz-creating process by entering a prompt that describes the quiz or uploading a file to base the quiz on, for example, a lesson plan or another document.</p>
@@ -24,7 +24,7 @@ export default function QuizGeneratorPage() {
         </div>
         {/* Step 2 */}
         <div className="flex-1 flex flex-row items-start text-left">
-          <span className="text-[80px] font-bold text-[#C7A2F7] opacity-40 mr-4 leading-none">2</span>
+          <span className="text-[80px] font-bold text-[#F8C57C] opacity-80 mr-4 leading-none">2</span>
           <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2 whitespace-nowrap overflow-hidden text-ellipsis">Specify quiz details</h2>
             <p className="text-base text-gray-800 max-w-xs">Tell our AI bot how many questions you need, the language you want your quiz to be in, and the type of questions you want included.</p>
@@ -32,7 +32,7 @@ export default function QuizGeneratorPage() {
         </div>
         {/* Step 3 */}
         <div className="flex-1 flex flex-row items-start text-left">
-          <span className="text-[80px] font-bold text-[#C7A2F7] opacity-40 mr-4 leading-none">3</span>
+          <span className="text-[80px] font-bold text-[#F8C57C] opacity-80 mr-4 leading-none">3</span>
           <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2 whitespace-nowrap overflow-hidden text-ellipsis">Review and share</h2>
             <p className="text-base text-gray-800 max-w-xs">Happy with your AI-generated quiz? Share or embed it to collect quiz responses.</p>
@@ -45,7 +45,7 @@ export default function QuizGeneratorPage() {
         <label className="w-full flex flex-col items-center cursor-pointer mb-4">
           <span className="text-base font-semibold text-gray-700 mb-2">Upload a file</span>
           <input type="file" className="hidden" onChange={e => setFile(e.target.files?.[0] || null)} />
-          <div className="w-full border-2 border-dashed border-gray-300 rounded-xl py-6 flex items-center justify-center text-gray-400 hover:border-[#8B3FFC] transition">
+          <div className="w-full border-2 border-dashed border-gray-300 rounded-xl py-6 flex items-center justify-center text-gray-400 hover:border-[#F8C57C] transition">
             {file ? file.name : 'Click or drag a file here'}
           </div>
         </label>
@@ -61,7 +61,7 @@ export default function QuizGeneratorPage() {
           value={subject}
           onChange={e => setSubject(e.target.value)}
           placeholder="Enter a subject to study..."
-          className="w-full border border-gray-300 rounded-xl px-4 py-3 text-lg focus:outline-none focus:border-[#8B3FFC] mb-2"
+          className="w-full border border-gray-300 rounded-xl px-4 py-3 text-lg focus:outline-none focus:border-[#F8C57C] mb-2"
         />
       </div>
       {/* Options */}
@@ -96,7 +96,7 @@ export default function QuizGeneratorPage() {
           <select
             value={difficulty}
             onChange={e => setDifficulty(e.target.value)}
-            className="w-full border border-gray-300 rounded-xl px-4 py-2 text-lg focus:outline-none focus:border-[#8B3FFC]"
+            className="w-full border border-gray-300 rounded-xl px-4 py-2 text-lg focus:outline-none focus:border-[#F8C57C]"
           >
             <option>Easy</option>
             <option>Medium</option>
@@ -109,7 +109,7 @@ export default function QuizGeneratorPage() {
           <select
             value={language}
             onChange={e => setLanguage(e.target.value)}
-            className="w-full border border-gray-300 rounded-xl px-4 py-2 text-lg focus:outline-none focus:border-[#8B3FFC]"
+            className="w-full border border-gray-300 rounded-xl px-4 py-2 text-lg focus:outline-none focus:border-[#F8C57C]"
           >
             <option>English</option>
             <option>French</option>
@@ -120,8 +120,8 @@ export default function QuizGeneratorPage() {
       </div>
       {/* Bouton principal */}
       <button
-        className="bg-[#DDBDFD] hover:translate-y-1 hover:shadow-sm active:translate-y-1 active:shadow-sm text-white font-bold rounded-xl px-10 py-4 text-xl shadow-lg border-2 border-[#DDBDFD] transition cursor-pointer"
-        style={{boxShadow: '0 4px 0 #B373E4'}}
+        className="bg-[#F8C57C] hover:translate-y-1 hover:shadow-sm active:translate-y-1 active:shadow-sm text-white font-bold rounded-xl px-10 py-4 text-xl shadow-lg border-2 border-[#F8C57C] transition cursor-pointer w-full max-w-xl"
+        style={{boxShadow: '0 4px 0 #E6B35A'}}
         type="button"
       >
         Generate AI Quiz

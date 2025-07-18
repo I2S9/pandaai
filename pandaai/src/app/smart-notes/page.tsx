@@ -112,7 +112,7 @@ export default function SmartNotesPage() {
       <div className="flex flex-col md:flex-row justify-center gap-12 w-full max-w-6xl mb-16">
         {/* Step 1 */}
         <div className="flex-1 flex flex-row items-start text-left">
-          <span className="text-[80px] font-bold text-[#C7A2F7] opacity-40 mr-4 leading-none">1</span>
+          <span className="text-[80px] font-bold text-[#F7DC6F] opacity-80 mr-4 leading-none">1</span>
           <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-3">Input Content</h2>
             <p className="text-base text-gray-800 max-w-xs">Copy the YouTube video link of your choice for your studies or record a free conversation from your course with your professor. Start by either pasting a YouTube URL or recording audio from your class or study session.</p>
@@ -121,7 +121,7 @@ export default function SmartNotesPage() {
         
         {/* Step 2 */}
         <div className="flex-1 flex flex-row items-start text-left">
-          <span className="text-[80px] font-bold text-[#C7A2F7] opacity-40 mr-4 leading-none">2</span>
+          <span className="text-[80px] font-bold text-[#F7DC6F] opacity-80 mr-4 leading-none">2</span>
           <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-3">Transcribe</h2>
             <p className="text-base text-gray-800 max-w-xs">Transcribe what was said during the audio or video. Our AI will automatically transcribe the content, converting speech to text with high accuracy.</p>
@@ -130,7 +130,7 @@ export default function SmartNotesPage() {
         
         {/* Step 3 */}
         <div className="flex-1 flex flex-row items-start text-left">
-          <span className="text-[80px] font-bold text-[#C7A2F7] opacity-40 mr-4 leading-none">3</span>
+          <span className="text-[80px] font-bold text-[#F7DC6F] opacity-80 mr-4 leading-none">3</span>
           <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-3">Generate Notes</h2>
             <p className="text-base text-gray-800 max-w-xs">Transform this into smart notes by generating summaries, detailed transcriptions, or mind mapping. Choose your preferred format: smart notes, summaries, detailed transcripts, or mind maps for better understanding.</p>
@@ -145,8 +145,8 @@ export default function SmartNotesPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Enregistrement audio */}
           <div className="flex flex-col items-center">
-            <div className="w-32 h-32 rounded-full border-4 border-[#D4B5FF] flex items-center justify-center mb-6">
-              <div className="w-20 h-20 rounded-full bg-[#E6D7FF] flex items-center justify-center">
+            <div className="w-32 h-32 rounded-full border-4 border-[#F7DC6F] flex items-center justify-center mb-6">
+              <div className="w-20 h-20 rounded-full bg-[#F9E6A0] flex items-center justify-center">
                 <svg width="32" height="32" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24">
                   <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" strokeLinecap="round" strokeLinejoin="round"/>
                   <path d="M19 10v2a7 7 0 0 1-14 0v-2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -164,9 +164,9 @@ export default function SmartNotesPage() {
                 className={`w-full rounded-xl px-8 py-4 font-bold text-lg shadow-lg border-2 transition cursor-pointer ${
                   isRecording
                     ? 'bg-red-500 hover:translate-y-1 hover:shadow-sm active:translate-y-1 active:shadow-sm text-white border-red-500'
-                    : 'bg-[#DDBDFD] hover:translate-y-1 hover:shadow-sm active:translate-y-1 active:shadow-sm text-white border-[#DDBDFD]'
+                    : 'bg-[#F7DC6F] hover:translate-y-1 hover:shadow-sm active:translate-y-1 active:shadow-sm text-white border-[#F7DC6F]'
                 } disabled:opacity-50 disabled:cursor-not-allowed`}
-                style={{boxShadow: isRecording ? '0 4px 0 #DC2626' : '0 4px 0 #B373E4'}}
+                style={{boxShadow: isRecording ? '0 4px 0 #DC2626' : '0 4px 0 #E6C95A'}}
               >
                 {isRecording ? 'Recording...' : 'Start Recording'}
               </button>
@@ -175,8 +175,8 @@ export default function SmartNotesPage() {
 
           {/* URL YouTube */}
           <div className="flex flex-col items-center">
-            <div className="w-32 h-32 rounded-full border-4 border-[#D4B5FF] flex items-center justify-center mb-6">
-              <div className="w-20 h-20 rounded-full bg-[#E6D7FF] flex items-center justify-center">
+            <div className="w-32 h-32 rounded-full border-4 border-[#F7DC6F] flex items-center justify-center mb-6">
+              <div className="w-20 h-20 rounded-full bg-[#F9E6A0] flex items-center justify-center">
                 <svg width="32" height="32" fill="white" viewBox="0 0 24 24">
                   <circle cx="12" cy="12" r="11" fill="none" stroke="white" strokeWidth="2"/>
                   <path d="M9 6l7 6-7 6V6z"/>
@@ -191,14 +191,14 @@ export default function SmartNotesPage() {
                 value={youtubeUrl}
                 onChange={(e) => setYoutubeUrl(e.target.value)}
                 placeholder="https://youtube.com/..."
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 mb-4 focus:outline-none focus:border-[#D4B5FF] text-lg"
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 mb-4 focus:outline-none focus:border-[#F7DC6F] text-lg"
                 disabled={isProcessing}
               />
               <button
                 onClick={processYoutubeUrl}
                 disabled={!youtubeUrl.trim() || isProcessing}
-                className="w-full bg-[#DDBDFD] hover:translate-y-1 hover:shadow-sm active:translate-y-1 active:shadow-sm text-white font-bold rounded-xl px-8 py-4 text-lg shadow-lg border-2 border-[#DDBDFD] transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{boxShadow: '0 4px 0 #B373E4'}}
+                className="w-full bg-[#F7DC6F] hover:translate-y-1 hover:shadow-sm active:translate-y-1 active:shadow-sm text-white font-bold rounded-xl px-8 py-4 text-lg shadow-lg border-2 border-[#F7DC6F] transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{boxShadow: '0 4px 0 #E6C95A'}}
               >
                 {isProcessing ? 'Processing...' : 'Process Video'}
               </button>
