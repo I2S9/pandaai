@@ -2,116 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-// Composant pour afficher le mind map
-const MindMapDisplay = ({ content }: { content: string }) => {
-  // Parser le contenu pour créer un mind map simple
-  const parseMindMap = (content: string) => {
-    try {
-      // Essayer de parser comme JSON d'abord
-      const data = JSON.parse(content);
-      return data;
-    } catch {
-      // Si ce n'est pas du JSON, créer un mind map à partir du texte
-      const lines = content.split('\n').filter(line => line.trim());
-      const nodes = [];
-      const connections = [];
-      
-      let nodeId = 1;
-      const mainTopic = lines[0] || 'Main Topic';
-      nodes.push({
-        id: 'main',
-        label: mainTopic,
-        x: 200,
-        y: 100,
-        level: 0
-      });
-      
-      for (let i = 1; i < lines.length; i++) {
-        const line = lines[i].trim();
-        if (line && !line.startsWith('•') && !line.startsWith('-')) {
-          const node = {
-            id: `node-${nodeId}`,
-            label: line,
-            x: 100 + (nodeId % 3) * 150,
-            y: 200 + Math.floor(nodeId / 3) * 100,
-            level: 1
-          };
-          nodes.push(node);
-          connections.push({
-            id: `conn-${nodeId}`,
-            from: 'main',
-            to: `node-${nodeId}`
-          });
-          nodeId++;
-        }
-      }
-      
-      return { nodes, connections };
-    }
-  };
 
-  const mindMapData = parseMindMap(content);
-
-  return (
-    <div className="relative w-full h-96 bg-white rounded-lg border">
-      <svg width="100%" height="100%" className="absolute inset-0">
-        {/* Connexions */}
-        {mindMapData.connections?.map((conn: { id: string; from: string; to: string }) => {
-          const fromNode = mindMapData.nodes.find((n: { id: string; x: number; y: number }) => n.id === conn.from);
-          const toNode = mindMapData.nodes.find((n: { id: string; x: number; y: number }) => n.id === conn.to);
-          if (fromNode && toNode) {
-            return (
-              <line
-                key={conn.id}
-                x1={fromNode.x}
-                y1={fromNode.y}
-                x2={toNode.x}
-                y2={toNode.y}
-                stroke="#8B3FFC"
-                strokeWidth="2"
-                markerEnd="url(#arrowhead)"
-              />
-            );
-          }
-          return null;
-        })}
-        
-        {/* Flèche */}
-        <defs>
-          <marker
-            id="arrowhead"
-            markerWidth="10"
-            markerHeight="7"
-            refX="9"
-            refY="3.5"
-            orient="auto"
-          >
-            <polygon points="0 0, 10 3.5, 0 7" fill="#8B3FFC" />
-          </marker>
-        </defs>
-      </svg>
-      
-      {/* Nœuds */}
-      {mindMapData.nodes?.map((node: { id: string; label: string; x: number; y: number; level: number }) => (
-        <div
-          key={node.id}
-          className="absolute transform -translate-x-1/2 -translate-y-1/2"
-          style={{ left: node.x, top: node.y }}
-        >
-          <div className={`
-            px-4 py-2 rounded-lg border-2 text-center text-sm font-semibold whitespace-nowrap
-            ${node.level === 0 
-              ? 'bg-[#8B3FFC] text-white border-[#7C3AED]' 
-              : 'bg-white text-gray-800 border-[#8B3FFC]'
-            }
-          `}>
-            {node.label}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-};
 
 export default function SmartNotesResultsPage() {
   const router = useRouter();
@@ -125,8 +16,13 @@ export default function SmartNotesResultsPage() {
   useEffect(() => {
     // Récupérer la transcription depuis les paramètres d'URL
     const transcriptionParam = searchParams.get('transcription');
+    console.log('Transcription param:', transcriptionParam);
     if (transcriptionParam) {
-      setTranscription(decodeURIComponent(transcriptionParam));
+      const decodedTranscription = decodeURIComponent(transcriptionParam);
+      console.log('Decoded transcription:', decodedTranscription);
+      setTranscription(decodedTranscription);
+    } else {
+      console.log('No transcription parameter found');
     }
   }, [searchParams]);
 
@@ -136,30 +32,38 @@ export default function SmartNotesResultsPage() {
       return;
     }
 
+    console.log('Generating notes with:', { selectedOutputType, transcriptionLength: transcription.length });
     setIsProcessing(true);
     setError('');
 
     try {
+      const requestBody = {
+        content: transcription,
+        outputType: selectedOutputType
+      };
+      console.log('Sending request to smart-notes API:', requestBody);
+      
       const response = await fetch('/api/smart-notes', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          type: 'generate_notes',
-          content: transcription,
-          outputType: selectedOutputType
-        })
+        body: JSON.stringify(requestBody)
       });
 
+      console.log('Smart notes API response status:', response.status);
+      
       if (!response.ok) {
         const errorData = await response.json();
+        console.error('Smart notes API error:', errorData);
         throw new Error(errorData.error || 'Failed to generate notes');
       }
 
       const data = await response.json();
+      console.log('Smart notes API success:', data);
       setGeneratedNotes(data.content);
     } catch (err) {
+      console.error('Generate notes error:', err);
       setError(err instanceof Error ? err.message : 'Failed to generate notes');
     } finally {
       setIsProcessing(false);
@@ -204,7 +108,6 @@ export default function SmartNotesResultsPage() {
       
       // Créer le PDF avec fallback
       try {
-        // @ts-expect-error - jsPDF module import
         const jsPDF = (await import('jspdf')).default;
         const pdf = new jsPDF('p', 'mm', 'a4');
         
@@ -257,13 +160,13 @@ export default function SmartNotesResultsPage() {
   return (
     <div className="min-h-screen bg-[#F7FAFC] flex flex-col items-center py-12 px-4">
       {/* Titre */}
-      <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-8">Smart Notes Results</h1>
+      <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-8">Smart note results</h1>
       
       {/* Bouton retour */}
       <button
         onClick={() => router.push('/smart-notes')}
-        className="mb-8 bg-[#DDBDFD] hover:translate-y-1 hover:shadow-sm active:translate-y-1 active:shadow-sm text-white font-bold rounded-xl px-6 py-3 shadow-lg border-2 border-[#DDBDFD] transition cursor-pointer"
-        style={{boxShadow: '0 4px 0 #B373E4'}}
+        className="mb-8 bg-[#F7DC6F] hover:translate-y-1 hover:shadow-sm active:translate-y-1 active:shadow-sm text-white font-bold rounded-xl px-6 py-3 shadow-lg border-2 border-[#F7DC6F] transition cursor-pointer"
+        style={{boxShadow: '0 4px 0 #E6C95A'}}
       >
         ← Back to Smart Notes
       </button>
@@ -273,35 +176,53 @@ export default function SmartNotesResultsPage() {
         <div className="bg-white rounded-2xl shadow p-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Transcription</h2>
           <div className="bg-gray-50 rounded-xl p-4 max-h-64 overflow-y-auto">
-            {transcription ? (
-              <p className="text-gray-800 whitespace-pre-wrap">{transcription}</p>
+            {transcription && !transcription.includes("doesn't have captions") && !transcription.includes("automatic extraction is currently limited") ? (
+              <div>
+                <p className="text-gray-800 whitespace-pre-wrap leading-relaxed">{transcription}</p>
+                <div className="mt-4 pt-4 border-t border-gray-200">
+                  <p className="text-sm text-gray-600">
+                    <strong>Length:</strong> {transcription.split(' ').length} words
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    <strong>Characters:</strong> {transcription.length}
+                  </p>
+                </div>
+              </div>
             ) : (
-              <p className="text-gray-500 italic">No transcription available...</p>
+              <div className="text-center py-8">
+                <p className="text-gray-500 italic mb-2">No transcription available...</p>
+                <p className="text-sm text-gray-400 mb-4">Please go back and try with a different YouTube video that has captions enabled.</p>
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                  <p className="text-yellow-800 text-sm">
+                    <strong>Note:</strong> YouTube transcription is currently limited. For best results, please use the audio recording option instead.
+                  </p>
+                </div>
+              </div>
             )}
           </div>
         </div>
 
         {/* Options de génération */}
         <div className="bg-white rounded-2xl shadow p-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Generate Smart Notes</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Generate Smart Notes</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             {[
-              { id: 'smart_notes', label: 'Smart Notes', icon: '📝' },
-              { id: 'summary', label: 'Summary', icon: '📋' },
-              { id: 'detailed_transcript', label: 'Detailed Transcript', icon: '📄' },
-              { id: 'mind_map', label: 'Mind Map', icon: '🗺️' }
+              { id: 'smart_notes', label: 'Smart Notes', icon: '📝', description: 'Organized study notes' },
+              { id: 'summary', label: 'Summary', icon: '📋', description: 'Key points overview' },
+              { id: 'detailed_transcript', label: 'Detailed Transcript', icon: '📄', description: 'Full formatted text' }
             ].map((option) => (
               <button
                 key={option.id}
                 onClick={() => setSelectedOutputType(option.id)}
-                className={`p-4 rounded-xl border-2 transition ${
+                className={`p-6 rounded-2xl border-2 transition-all duration-200 transform hover:scale-105 ${
                   selectedOutputType === option.id
-                    ? 'border-[#8B3FFC] bg-[#F3F0FF]'
-                    : 'border-gray-200 hover:border-gray-300'
+                    ? 'border-[#F7DC6F] bg-[#FEF9E7] shadow-lg'
+                    : 'border-gray-200 hover:border-[#F7DC6F] hover:bg-gray-50'
                 }`}
               >
-                <div className="text-2xl mb-2">{option.icon}</div>
-                <div className="text-sm font-semibold text-gray-900">{option.label}</div>
+                <div className="text-3xl mb-3">{option.icon}</div>
+                <div className="text-sm font-bold text-gray-900 mb-1">{option.label}</div>
+                <div className="text-xs text-gray-600">{option.description}</div>
               </button>
             ))}
           </div>
@@ -309,8 +230,8 @@ export default function SmartNotesResultsPage() {
           <button
             onClick={generateNotes}
             disabled={isProcessing}
-            className="w-full bg-[#DDBDFD] hover:translate-y-1 hover:shadow-sm active:translate-y-1 active:shadow-sm text-white font-bold rounded-xl px-6 py-4 text-lg shadow-lg border-2 border-[#DDBDFD] transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{boxShadow: '0 4px 0 #B373E4'}}
+            className="w-full bg-[#F7DC6F] hover:translate-y-1 hover:shadow-sm active:translate-y-1 active:shadow-sm text-white font-bold rounded-xl px-6 py-4 text-lg shadow-lg border-2 border-[#F7DC6F] transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            style={{boxShadow: '0 4px 0 #E6C95A'}}
           >
             {isProcessing ? 'Generating...' : 'Smart Generation'}
           </button>
@@ -320,19 +241,14 @@ export default function SmartNotesResultsPage() {
         {generatedNotes && (
           <div className="bg-white rounded-2xl shadow p-6">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Generated Notes</h2>
-            {selectedOutputType === 'mind_map' ? (
-              <div className="bg-gray-50 rounded-xl p-4 max-h-96 overflow-auto">
-                <MindMapDisplay content={generatedNotes} />
-              </div>
-            ) : (
-              <div className="bg-gray-50 rounded-xl p-4 max-h-96 overflow-y-auto">
-                <div className="text-gray-800 whitespace-pre-wrap">{generatedNotes}</div>
-              </div>
-            )}
+            <div className="bg-gray-50 rounded-xl p-4 max-h-96 overflow-y-auto">
+              <div className="text-gray-800 whitespace-pre-wrap">{generatedNotes}</div>
+            </div>
             <div className="mt-4 flex gap-4">
               <button
                 onClick={() => navigator.clipboard.writeText(generatedNotes)}
-                className="bg-[#8B3FFC] hover:bg-[#7C3AED] text-white font-bold rounded-xl px-6 py-3 transition"
+                className="bg-[#F7DC6F] hover:translate-y-1 hover:shadow-sm active:translate-y-1 active:shadow-sm text-white font-bold rounded-xl px-6 py-3 shadow-lg border-2 border-[#F7DC6F] transition cursor-pointer"
+                style={{boxShadow: '0 4px 0 #E6C95A'}}
               >
                 Copy to Clipboard
               </button>
@@ -346,13 +262,15 @@ export default function SmartNotesResultsPage() {
                   a.click();
                   URL.revokeObjectURL(url);
                 }}
-                className="bg-green-500 hover:bg-green-600 text-white font-bold rounded-xl px-6 py-3 transition"
+                className="bg-[#F7DC6F] hover:translate-y-1 hover:shadow-sm active:translate-y-1 active:shadow-sm text-white font-bold rounded-xl px-6 py-3 shadow-lg border-2 border-[#F7DC6F] transition cursor-pointer"
+                style={{boxShadow: '0 4px 0 #E6C95A'}}
               >
                 Download TXT
               </button>
               <button
                 onClick={downloadPDF}
-                className="bg-red-500 hover:bg-red-600 text-white font-bold rounded-xl px-6 py-3 transition"
+                className="bg-[#F7DC6F] hover:translate-y-1 hover:shadow-sm active:translate-y-1 active:shadow-sm text-white font-bold rounded-xl px-6 py-3 shadow-lg border-2 border-[#F7DC6F] transition cursor-pointer"
+                style={{boxShadow: '0 4px 0 #E6C95A'}}
               >
                 Download PDF
               </button>

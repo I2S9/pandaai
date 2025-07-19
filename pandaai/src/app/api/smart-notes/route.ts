@@ -3,8 +3,10 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(request: NextRequest) {
   try {
     const { content, outputType } = await request.json();
+    console.log('Smart Notes API called with:', { outputType, contentLength: content?.length });
 
     if (!content || !outputType) {
+      console.log('Missing required fields:', { content: !!content, outputType: !!outputType });
       return NextResponse.json(
         { error: 'Content and output type are required' },
         { status: 400 }
@@ -41,23 +43,13 @@ Please format with:
 - Clear paragraph breaks
 - Proper punctuation and grammar
 - Logical flow and organization
-- Any relevant timestamps or sections`,
-      
-      mind_map: `Create a mind map structure from the following content. Identify the main topic and key subtopics with their relationships:
-
-${content}
-
-Please provide a structured mind map with:
-- Main central topic
-- Primary branches (3-5 main concepts)
-- Secondary branches for each primary concept
-- Key terms and definitions
-- Relationships between concepts`
+- Any relevant timestamps or sections`
     };
 
     const prompt = prompts[outputType as keyof typeof prompts] || prompts.smart_notes;
 
     // Appel à l'API Open Router
+    console.log('Calling OpenRouter API with prompt length:', prompt.length);
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -83,12 +75,18 @@ Please provide a structured mind map with:
       })
     });
 
+    console.log('OpenRouter response status:', response.status);
+    
     if (!response.ok) {
-      throw new Error(`OpenRouter API error: ${response.status}`);
+      const errorText = await response.text();
+      console.error('OpenRouter API error:', errorText);
+      throw new Error(`OpenRouter API error: ${response.status} - ${errorText}`);
     }
 
     const data = await response.json();
+    console.log('OpenRouter response data:', data);
     const generatedContent = data.choices[0]?.message?.content || 'No content generated';
+    console.log('Generated content length:', generatedContent.length);
 
     return NextResponse.json({
       content: generatedContent,

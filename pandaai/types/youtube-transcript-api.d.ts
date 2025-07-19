@@ -1,4 +1,4 @@
-declare module 'youtube-transcript-api' {
+declare module 'youtube-transcript' {
   export interface TranscriptSegment {
     text: string;
     duration: number;

@@ -78,10 +78,18 @@ export default function SmartNotesPage() {
       return;
     }
 
+    // Validation de l'URL YouTube
+    const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)[a-zA-Z0-9_-]+/;
+    if (!youtubeRegex.test(youtubeUrl)) {
+      setError('Please enter a valid YouTube URL (e.g., https://youtube.com/watch?v=VIDEO_ID or https://youtu.be/VIDEO_ID)');
+      return;
+    }
+
     setIsProcessing(true);
     setError('');
     
     try {
+      console.log('Sending YouTube URL to API:', youtubeUrl);
       const response = await fetch('/api/transcribe-youtube', {
         method: 'POST',
         headers: {
@@ -90,14 +98,26 @@ export default function SmartNotesPage() {
         body: JSON.stringify({ url: youtubeUrl })
       });
 
+      console.log('API response status:', response.status);
+      
+      const data = await response.json();
+      console.log('API response data:', data);
+      
       if (!response.ok) {
-        throw new Error('Failed to transcribe YouTube video');
+        console.error('API error:', data);
+        throw new Error(data.error || 'Failed to transcribe YouTube video');
       }
 
-      const data = await response.json();
+      if (!data.transcription) {
+        throw new Error('No transcription received from the API');
+      }
+      
       // Rediriger vers la page de résultats avec la transcription
-      router.push(`/smart-notes-results?transcription=${encodeURIComponent(data.transcription)}`);
-    } catch {
+      const redirectUrl = `/smart-notes-results?transcription=${encodeURIComponent(data.transcription)}`;
+      console.log('Redirecting to:', redirectUrl);
+      router.push(redirectUrl);
+    } catch (error) {
+      console.error('Process YouTube URL error:', error);
       setError('Failed to process YouTube video.');
       setIsProcessing(false);
     }
@@ -213,11 +233,7 @@ export default function SmartNotesPage() {
         </div>
       )}
 
-      {isProcessing && (
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 max-w-2xl">
-          <p className="text-blue-800">Processing your content... Please wait.</p>
-        </div>
-      )}
+
     </div>
   );
 } 
