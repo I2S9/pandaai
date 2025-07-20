@@ -207,9 +207,37 @@ export default function SmartNotesResultsPage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Generate Smart Notes</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             {[
-              { id: 'smart_notes', label: 'Smart Notes', icon: '📝', description: 'Organized study notes' },
-              { id: 'summary', label: 'Summary', icon: '📋', description: 'Key points overview' },
-              { id: 'detailed_transcript', label: 'Detailed Transcript', icon: '📄', description: 'Full formatted text' }
+              { 
+                id: 'smart_notes', 
+                label: 'Smart Notes', 
+                icon: (
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 12H15M9 16H15M17 21H7C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H12.5858C12.851 3 13.1054 3.10536 13.2929 3.29289L19.7071 9.70711C19.8946 9.89464 20 10.149 20 10.4142V19C20 20.1046 19.1046 21 18 21H17ZM17 21V10H12V5H7V19H17Z" fill="currentColor"/>
+                  </svg>
+                ), 
+                description: 'Organized study notes' 
+              },
+              { 
+                id: 'summary', 
+                label: 'Summary', 
+                icon: (
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 12H15M9 16H15M17 21H7C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H12.5858C12.851 3 13.1054 3.10536 13.2929 3.29289L19.7071 9.70711C19.8946 9.89464 20 10.149 20 10.4142V19C20 20.1046 19.1046 21 18 21H17ZM17 21V10H12V5H7V19H17Z" fill="currentColor"/>
+                  </svg>
+                ), 
+                description: 'Key points overview' 
+              },
+              { 
+                id: 'detailed_transcript', 
+                label: 'Detailed Transcript', 
+                icon: (
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2ZM18 20H6V4H13V9H18V20Z" fill="currentColor"/>
+                    <path d="M8 12H16V14H8V12ZM8 16H16V18H8V16ZM8 8H13V10H8V8Z" fill="currentColor"/>
+                  </svg>
+                ), 
+                description: 'Full formatted text' 
+              }
             ].map((option) => (
               <button
                 key={option.id}
@@ -220,7 +248,9 @@ export default function SmartNotesResultsPage() {
                     : 'border-gray-200 hover:border-[#F7DC6F] hover:bg-gray-50'
                 }`}
               >
-                <div className="text-3xl mb-3">{option.icon}</div>
+                <div className="mb-3 flex justify-center text-gray-900">
+                  {option.icon}
+                </div>
                 <div className="text-sm font-bold text-gray-900 mb-1">{option.label}</div>
                 <div className="text-xs text-gray-600">{option.description}</div>
               </button>

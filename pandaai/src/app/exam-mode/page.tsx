@@ -11,9 +11,44 @@ export default function ExamModePage() {
     }
   };
 
-  const handleNext = () => {
-    // Handle next step
-    console.log('Next clicked, file:', file);
+  const handleNext = async () => {
+    if (!file) return;
+    
+    try {
+      console.log('Uploading file:', file);
+      
+      // Upload the file to get extracted text
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      const response = await fetch('/api/extract-pdf', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('File uploaded successfully:', data);
+        
+        // Store the extracted text for the configuration page
+        localStorage.setItem('uploadedFileData', JSON.stringify({
+          filename: file.name,
+          extractedText: data.extractedText,
+          contentType: data.contentType,
+          pages: data.pages
+        }));
+        
+        // Redirect to configuration page
+        window.location.href = '/exam-mode/configure';
+      } else {
+        const errorData = await response.json();
+        console.error('Upload failed:', errorData);
+        alert('Erreur lors de l\'upload: ' + (errorData.error || 'Erreur inconnue'));
+      }
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      alert('Erreur lors de l\'upload du fichier. Vérifiez votre connexion internet.');
+    }
   };
 
   return (

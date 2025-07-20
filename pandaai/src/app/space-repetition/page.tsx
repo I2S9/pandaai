@@ -27,19 +27,30 @@ export default function SpaceRepetitionPage() {
       </div>
 
       {/* Contenu */}
-      <div className="w-full max-w-4xl space-y-12">
+      <div className="w-full max-w-4xl space-y-12 px-8 md:px-12 lg:px-16">
         {/* What Is Spaced Repetition? */}
         <div className="text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">What is spaced repetition?</h2>
-          <p className="text-lg text-gray-700 leading-relaxed">
+          <p className="text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto">
             Spaced Repetition is a scientifically-proven learning technique that delivers material at increasing intervals, just as you&apos;re about to forget it. Originally demonstrated by psychologist Hermann Ebbinghaus, this method effectively combats the &ldquo;forgetting curve&rdquo;.
           </p>
+        </div>
+
+        {/* Spaced Repetition Image */}
+        <div className="flex justify-center mb-12">
+          <Image 
+            src="/spaced-repetition-image.png" 
+            alt="Spaced repetition visualization" 
+            width={600} 
+            height={400}
+            className="w-auto h-auto max-w-full"
+          />
         </div>
 
         {/* Why It Works */}
         <div className="text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Why it works</h2>
-          <p className="text-lg text-gray-700 leading-relaxed">
+          <p className="text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto">
             By spacing reviews, you strengthen memory traces through effortful recall and the &ldquo;testing effect&rdquo;. Studies show that distributed learning boosts long-term retention far beyond one-time &ldquo;cramming&rdquo;.
           </p>
         </div>
@@ -47,7 +58,7 @@ export default function SpaceRepetitionPage() {
         {/* Benefits for Learners */}
         <div className="text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Benefits for learners</h2>
-          <ul className="text-lg text-gray-700 leading-relaxed space-y-2">
+          <ul className="text-lg text-gray-700 leading-relaxed space-y-2 max-w-3xl mx-auto">
             <li><strong>Efficient Learning</strong> - You spend less time studying but retain more.</li>
             <li><strong>Durable Knowledge</strong> - Material sticks in your memory weeks or even months later.</li>
             <li><strong>Adaptivity at its Best</strong> - Difficult items appear more often; easy ones less so using algorithms like SM‑2 or FSRS.</li>
@@ -57,7 +68,7 @@ export default function SpaceRepetitionPage() {
         {/* How PandaAi Implements It */}
         <div className="text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">How PandaAi implements it</h2>
-          <p className="text-lg text-gray-700 leading-relaxed">
+          <p className="text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto">
             On PandaAi, scheduled micro‑sessions and quizzes are driven by smart algorithms. You&apos;re prompted to review at exactly the right moment, maximizing learning while fitting into your day-to-day life.
           </p>
         </div>
@@ -65,7 +76,7 @@ export default function SpaceRepetitionPage() {
         {/* Built for Language & Skill Mastery */}
         <div className="text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Built for language & skill mastery</h2>
-          <p className="text-lg text-gray-700 leading-relaxed">
+          <p className="text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto">
             Whether you&apos;re mastering vocabulary, formulas, or procedural knowledge, PandaAi&apos;s spaced repetition mirrors methods in top-tier apps like Anki or Memrise. It&apos;s also been used effectively in areas from language learning to even neurosurgical training.
           </p>
         </div>
@@ -73,15 +84,29 @@ export default function SpaceRepetitionPage() {
         {/* Getting Started: Your Learning Journey */}
         <div className="text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Getting started: your learning journey</h2>
-          <p className="text-lg text-gray-700 leading-relaxed">
+          <p className="text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto">
             With PandaAi, you begin by reviewing material shortly after you first learn it, then again after a day, then several days later, and so on. This expanding interval system ensures you&apos;re practicing just as memory begins to fade.
           </p>
+          <p className="text-lg text-gray-700 leading-relaxed mt-4 max-w-3xl mx-auto">
+            Remember, taking breaks is essential for effective learning. Time management is crucial - work within designated time blocks using techniques like the Pomodoro method. This helps maintain focus and prevents mental fatigue while maximizing your learning efficiency.
+          </p>
+        </div>
+
+        {/* Pomodoro Button */}
+        <div className="text-center mb-12">
+          <button
+            onClick={() => router.push('/pomodoro')}
+            className="bg-[#B7EABF] hover:translate-y-1 hover:shadow-sm active:translate-y-1 active:shadow-sm text-white font-bold rounded-xl px-20 py-4 text-xl shadow-lg border-2 border-[#B7EABF] transition cursor-pointer"
+            style={{boxShadow: '0 4px 0 #A3D9AC'}}
+          >
+            Try Pomodoro Now
+          </button>
         </div>
 
         {/* Enhance Your PandaAi Experience */}
         <div className="text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Enhance your PandaAi experience</h2>
-          <ul className="text-lg text-gray-700 leading-relaxed space-y-2">
+          <ul className="text-lg text-gray-700 leading-relaxed space-y-2 max-w-3xl mx-auto">
             <li><strong>Use PandaAi flashcards daily</strong> - skip days and your due items pile up.</li>
             <li><strong>Break content into bite‑sized chunks</strong> - microlearning pairs perfectly with spaced repetition.</li>
             <li><strong>Combine active recall + spaced intervals</strong> - test yourself to reinforce memory powerfully.</li>
