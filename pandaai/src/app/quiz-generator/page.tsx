@@ -32,6 +32,7 @@ export default function QuizGeneratorPage() {
   const [userAnswers, setUserAnswers] = useState<{ [key: number]: string }>({});
   const [showResults, setShowResults] = useState(false);
   const [showScorePopup, setShowScorePopup] = useState(false);
+  const [showExplanations, setShowExplanations] = useState(true);
 
   const generateQuiz = async () => {
     if (!subject.trim()) {
@@ -110,6 +111,7 @@ export default function QuizGeneratorPage() {
     setUserAnswers({});
     setShowResults(false);
     setShowScorePopup(false);
+    setShowExplanations(true);
     setError(null);
   };
 
@@ -247,9 +249,17 @@ export default function QuizGeneratorPage() {
         </>
       ) : (
         <div className="w-full max-w-4xl">
-          {/* Quiz Title - Centered without card */}
-          <div className="text-center mb-8">
+          {/* Quiz Title and Controls */}
+          <div className="flex justify-between items-center mb-8">
             <h2 className="text-3xl font-bold text-gray-900">{quizData.quiz.title}</h2>
+            {showResults && (
+              <button
+                onClick={() => setShowExplanations(!showExplanations)}
+                className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-4 py-2 rounded-lg transition-colors"
+              >
+                {showExplanations ? 'Hide Explanations' : 'Show Explanations'}
+              </button>
+            )}
           </div>
 
           {/* Quiz Info Badges - Centered */}
@@ -267,48 +277,123 @@ export default function QuizGeneratorPage() {
 
           {/* Quiz Questions */}
           <div className="space-y-6 mb-8">
-            {quizData.quiz.questions.map((question, index) => (
-              <div key={index} className="bg-[#F8C57C] bg-opacity-10 rounded-2xl shadow p-6 border border-[#F8C57C] border-opacity-30">
-                <h3 className="text-xl font-semibold text-white mb-4">
-                  Question {index + 1}: {question.question}
-                </h3>
-                
-                <div className="space-y-3 mb-4">
-                  {Object.entries(question.options).map(([key, value]) => (
-                    <label key={key} className="flex items-center cursor-pointer bg-white rounded-lg p-3 hover:bg-gray-50 transition">
-                      <input
-                        type="radio"
-                        name={`question-${index}`}
-                        value={key}
-                        checked={userAnswers[index] === key}
-                        onChange={() => handleAnswerSelect(index, key)}
-                        className="mr-3"
-                        disabled={showResults}
-                      />
-                      <span className={`text-lg ${
-                        showResults 
-                          ? key === question.correctAnswer 
-                            ? 'text-green-600 font-semibold' 
-                            : userAnswers[index] === key && key !== question.correctAnswer
-                            ? 'text-red-600 font-semibold'
-                            : 'text-gray-700'
-                          : 'text-gray-700'
-                      }`}>
-                        {key}. {value}
-                      </span>
-                    </label>
-                  ))}
-                </div>
-
-                {showResults && (
-                  <div className="bg-white rounded-lg p-4 border border-gray-200">
-                    <p className="text-sm text-gray-600">
-                      <strong>Explanation:</strong> {question.explanation}
-                    </p>
+            {quizData.quiz.questions.map((question, index) => {
+              const isCorrect = userAnswers[index] === question.correctAnswer;
+              const userSelected = userAnswers[index];
+              
+              return (
+                <div key={index} className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+                  {/* Question Header */}
+                  <div className="flex items-center mb-4">
+                    <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold ${
+                      showResults 
+                        ? isCorrect 
+                          ? 'bg-green-100 text-green-800' 
+                          : 'bg-red-100 text-red-800'
+                        : 'bg-orange-100 text-orange-800'
+                    }`}>
+                      <span>Question {index + 1}</span>
+                      {showResults && (
+                        <span className="ml-2">
+                          {isCorrect ? (
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                          ) : (
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                            </svg>
+                          )}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                )}
-              </div>
-            ))}
+
+                  {/* Question Text */}
+                  <h3 className="text-xl font-bold text-gray-900 mb-6">
+                    {question.question}
+                  </h3>
+                  
+                  {/* Answer Options */}
+                  <div className="space-y-3 mb-6">
+                    {Object.entries(question.options).map(([key, value]) => {
+                      const isCorrectAnswer = key === question.correctAnswer;
+                      const isUserAnswer = userSelected === key;
+                      const isWrongAnswer = showResults && isUserAnswer && !isCorrectAnswer;
+                      
+                      return (
+                        <div
+                          key={key}
+                          className={`p-4 rounded-lg border-2 transition-all ${
+                            showResults
+                              ? isCorrectAnswer
+                                ? 'bg-green-50 border-green-200'
+                                : isWrongAnswer
+                                ? 'bg-red-50 border-red-200'
+                                : 'bg-gray-50 border-gray-200'
+                              : userSelected === key
+                              ? 'bg-orange-50 border-orange-200'
+                              : 'bg-white border-gray-200 hover:border-orange-200'
+                          }`}
+                        >
+                          <label className="flex items-center cursor-pointer">
+                            <input
+                              type="radio"
+                              name={`question-${index}`}
+                              value={key}
+                              checked={userSelected === key}
+                              onChange={() => handleAnswerSelect(index, key)}
+                              className="mr-3"
+                              disabled={showResults}
+                            />
+                            <span className={`text-lg font-medium ${
+                              showResults
+                                ? isCorrectAnswer
+                                  ? 'text-green-700'
+                                  : isWrongAnswer
+                                  ? 'text-red-700'
+                                  : 'text-gray-700'
+                                : 'text-gray-700'
+                            }`}>
+                              {key}. {value}
+                            </span>
+                            {showResults && (
+                              <span className="ml-auto">
+                                {isCorrectAnswer && (
+                                  <span className="inline-flex items-center text-green-600 font-semibold">
+                                    <svg className="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                    </svg>
+                                    Correct
+                                  </span>
+                                )}
+                                {isWrongAnswer && (
+                                  <span className="inline-flex items-center text-red-600 font-semibold">
+                                    <svg className="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                      <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                                    </svg>
+                                    Your Answer
+                                  </span>
+                                )}
+                              </span>
+                            )}
+                          </label>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Explanation Section */}
+                  {showResults && showExplanations && (
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                      <p className="text-blue-800">
+                        <strong className="font-semibold">Explanation:</strong> {question.explanation}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
 
           {/* Action Buttons */}
