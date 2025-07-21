@@ -11,6 +11,8 @@
   "dependencies": {
     "@clerk/nextjs": "^6.24.0",
     "@stripe/stripe-js": "^7.4.0",
+    "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.52.0",
     "axios": "^1.10.0",
     "mammoth": "^1.9.1",
     "next": "15.3.5",

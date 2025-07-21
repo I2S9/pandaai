@@ -1,10 +1,12 @@
 'use client';
 
-import { useState } from 'react';
 import Footer from '../../components/layout/Footer';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../../../hooks/useAuth';
+import { calculateTotalTodayDurationFromLocalStorage, saveSessionToLocalStorage } from '../../../lib/localStorageService';
 import { useUser } from '@clerk/nextjs';
 import Image from 'next/image';
+
 
 export default function DashboardPage() {
   const [tab, setTab] = useState<'stats' | 'profile'>('stats');
@@ -20,7 +22,90 @@ export default function DashboardPage() {
   const [newSubject, setNewSubject] = useState('');
   
   const { user } = useUser();
+  const { user: authUser } = useAuth();
   const firstName = user?.firstName || 'Panda';
+
+  // Simple time tracking
+  const [sessionStartTime] = useState(Date.now());
+  const [currentTime, setCurrentTime] = useState(Date.now());
+
+  const [totalTodayDuration, setTotalTodayDuration] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(Date.now());
+    }, 1000); // Update every second
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Load existing data when user is authenticated
+  useEffect(() => {
+    if (authUser?.id) {
+      const loadExistingData = async () => {
+        try {
+          console.log('🔄 Loading existing data for user:', authUser.id);
+          
+          // Load today's total duration
+          const todayDuration = calculateTotalTodayDurationFromLocalStorage(authUser.id);
+          console.log('📊 Today duration loaded:', todayDuration, 'seconds');
+          setTotalTodayDuration(todayDuration);
+          
+        } catch (error) {
+          console.error('❌ Error loading existing data:', error);
+        }
+      };
+      
+      loadExistingData();
+    }
+  }, [authUser?.id]);
+
+  // Save session periodically
+  useEffect(() => {
+    if (authUser?.id) {
+      const saveTimer = setInterval(async () => {
+        try {
+          const currentDuration = Math.floor((currentTime - sessionStartTime) / 1000);
+          if (currentDuration > 0) {
+            saveSessionToLocalStorage(authUser.id, currentDuration);
+            console.log('💾 Session saved to localStorage:', currentDuration, 'seconds');
+          }
+        } catch (error) {
+          console.error('❌ Error saving session:', error);
+        }
+      }, 60000); // Save every minute
+
+      return () => clearInterval(saveTimer);
+    }
+  }, [authUser?.id, currentTime, sessionStartTime]);
+
+  // Save session on unmount
+  useEffect(() => {
+    return () => {
+      if (authUser?.id) {
+        const finalDuration = Math.floor((Date.now() - sessionStartTime) / 1000);
+        if (finalDuration > 0) {
+          try {
+            saveSessionToLocalStorage(authUser.id, finalDuration);
+            console.log('💾 Final session saved to localStorage:', finalDuration, 'seconds');
+          } catch (error) {
+            console.error('❌ Error saving final session:', error);
+          }
+        }
+      }
+    };
+  }, [authUser?.id, sessionStartTime]);
+
+  // Calculate session duration in minutes (current session + total today)
+  const currentSessionDuration = Math.floor((currentTime - sessionStartTime) / (1000 * 60));
+  const totalTodayMinutes = Math.floor(totalTodayDuration / 60);
+  const sessionDuration = currentSessionDuration + totalTodayMinutes;
+  
+  console.log('⏱️ Duration calculation:', {
+    currentSession: currentSessionDuration,
+    totalToday: totalTodayMinutes,
+    total: sessionDuration
+  });
 
   const avatarColors = {
     green: '#CAE7C4',
@@ -122,7 +207,7 @@ export default function DashboardPage() {
                   <ProgressionCard pbAlign />
                 </div>
                 <div className="flex-1 flex justify-start max-w-[900px] min-h-[520px]">
-                  <ActivityCard pbAlign />
+                  <ActivityCard pbAlign sessionDuration={sessionDuration} />
                 </div>
               </div>
             </>
@@ -280,8 +365,8 @@ export default function DashboardPage() {
         <>
           {/* Overlay semi-transparent pour assombrir la page */}
           <div className="fixed inset-0 bg-[rgba(0,0,0,0.5)] z-[9998] pointer-events-none">
-  <div className="sticky top-0 z-[9999] h-[80px] w-full"></div>
-</div>
+            <div className="sticky top-0 z-[9999] h-[80px] w-full"></div>
+          </div>
           {/* Popup */}
           <div className="fixed inset-0 flex items-center justify-center z-[9999] pointer-events-none">
             <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl pointer-events-auto">
@@ -425,14 +510,24 @@ function ProgressionCard({ pbAlign = false }) {
   );
 }
 
-function ActivityCard({ pbAlign = false }) {
+function ActivityCard({ pbAlign = false, sessionDuration = 0 }) {
   const [mode, setMode] = useState<'Weekly' | 'Daily' | 'Monthly'>('Weekly');
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<number | null>(null);
-  // Données fictives (0 partout)
+  
+  // Obtenir le jour actuel (0 = Dimanche, 1 = Lundi, etc.)
+  const today = new Date().getDay();
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  
+  // Créer un tableau avec des données fictives pour la semaine
   const data = [0, 0, 0, 0, 0, 0, 0];
-  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-  const average = 0;
+  
+  // Mettre le temps de session actuel dans le bon jour de la semaine
+  if (today >= 0 && today < 7) {
+    data[today] = sessionDuration;
+  }
+  
+  const average = Math.round(sessionDuration / 7);
   const dropdownRef = React.useRef<HTMLDivElement>(null);
   const MODES = ['Weekly', 'Daily', 'Monthly'];
 

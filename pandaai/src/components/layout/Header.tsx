@@ -1,6 +1,5 @@
 'use client';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useState } from 'react';
 import { SignInButton, SignUpButton, UserButton, useUser } from '@clerk/nextjs';
 
@@ -46,18 +45,19 @@ export default function Header() {
     <header className="w-full flex items-center justify-center py-6 px-4 md:px-12 bg-white/80 shadow-sm sticky top-0 z-50">
       <nav className="flex items-center gap-10 w-full max-w-6xl mx-auto">
         {/* Logo + titre */}
-        <Link 
-          href="/"
-          className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+        <button 
           onClick={() => {
             if (window.location.pathname === '/') {
               window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+              window.location.href = '/';
             }
           }}
+          className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
         >
           <Image src="/logo-pandaai.svg" alt="PandasAI Logo" width={44} height={44} />
           <span className="font-semibold text-xl md:text-2xl text-gray-900">PandasAi</span>
-        </Link>
+        </button>
 
         {/* Navbar links */}
         <div className="flex items-center gap-8 flex-1 justify-center">
@@ -91,7 +91,11 @@ export default function Header() {
                     else if (f.title === 'Spaced Repetition') href = '/space-repetition';
                     
                     return href ? (
-                      <Link href={href} key={i} className="flex items-start gap-3 p-2 rounded-xl hover:bg-gray-50 transition cursor-pointer">
+                      <button 
+                        onClick={() => window.location.href = href} 
+                        key={i} 
+                        className="flex items-start gap-3 p-2 rounded-xl hover:bg-gray-50 transition cursor-pointer w-full text-left"
+                      >
                         <div className={`flex-shrink-0 ${i === 1 ? 'mt-2' : 'mt-1'}`}>
                           <Image 
                             src={f.icon} 
@@ -104,7 +108,7 @@ export default function Header() {
                           <div className="font-semibold text-base text-gray-900 whitespace-nowrap">{f.title}</div>
                           <div className="text-sm text-gray-500">{f.desc}</div>
                         </div>
-                      </Link>
+                      </button>
                     ) : (
                       <div key={i} className="flex items-start gap-3 p-2 rounded-xl hover:bg-gray-50 transition cursor-pointer">
                         <div className={`flex-shrink-0 ${i === 1 ? 'mt-2' : 'mt-1'}`}>
@@ -129,21 +133,21 @@ export default function Header() {
               </div>
             )}
           </div>
-          <Link href="/ai-tutoring" className="text-lg font-semibold px-3 py-2 rounded-xl transition hover:bg-gray-50 hover:shadow-md">Ai Tutoring</Link>
-          <Link href="/#pricing" className="text-lg font-semibold px-3 py-2 rounded-xl transition hover:bg-gray-50 hover:shadow-md">Pricing</Link>
-          <Link href="/about" className="text-lg font-semibold px-3 py-2 rounded-xl transition hover:bg-gray-50 hover:shadow-md">About us</Link>
+          <button onClick={() => window.location.href = '/ai-tutoring'} className="text-lg font-semibold px-3 py-2 rounded-xl transition hover:bg-gray-50 hover:shadow-md">Ai Tutoring</button>
+          <button onClick={() => window.location.href = '/#pricing'} className="text-lg font-semibold px-3 py-2 rounded-xl transition hover:bg-gray-50 hover:shadow-md">Pricing</button>
+          <button onClick={() => window.location.href = '/about'} className="text-lg font-semibold px-3 py-2 rounded-xl transition hover:bg-gray-50 hover:shadow-md">About us</button>
         </div>
 
         {/* Auth Buttons */}
         <div className="flex gap-4">
           {isSignedIn ? (
             <div className="flex items-center gap-4">
-              <Link 
-                href="/dashboard" 
+              <button 
+                onClick={() => window.location.href = '/dashboard'}
                 className="text-lg font-semibold px-3 py-2 rounded-xl transition hover:bg-gray-50 hover:shadow-md"
               >
                 Dashboard
-              </Link>
+              </button>
               <UserButton 
                 appearance={{
                   elements: {

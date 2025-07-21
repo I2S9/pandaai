@@ -1,4 +1,5 @@
 @import "tailwindcss";
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@700&display=swap');
 
 @theme {
@@ -44,7 +45,7 @@ html, body {
   animation: scroll 15s linear infinite;
 }
 
-/* Flashcard 3D flip styles */
+/* Custom 3D card animations */
 .perspective-1000 {
   perspective: 1000px;
 }
@@ -59,4 +60,12 @@ html, body {
 
 .rotate-y-180 {
   transform: rotateY(180deg);
+}
+
+/* Custom line clamp utility */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }

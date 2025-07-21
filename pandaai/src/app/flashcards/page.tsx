@@ -1,6 +1,11 @@
 "use client";
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '../../../hooks/useAuth';
+import { saveFlashcardsToLocalStorage } from '../../../lib/localStorageService';
+
+
 
 interface Flashcard {
   front: string;
@@ -12,6 +17,8 @@ interface FlashcardData {
 }
 
 export default function FlashcardsPage() {
+  const router = useRouter();
+  const { user } = useAuth();
   const [file, setFile] = useState<File | null>(null);
   const [flashcardCount, setFlashcardCount] = useState(10);
   const [difficulty, setDifficulty] = useState('medium');
@@ -21,6 +28,7 @@ export default function FlashcardsPage() {
   const [error, setError] = useState<string | null>(null);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -93,6 +101,51 @@ export default function FlashcardsPage() {
     setCurrentCardIndex(0);
     setIsFlipped(false);
     setError(null);
+  };
+
+
+
+  const saveToCollection = async () => {
+    if (!user || !flashcardData) {
+      setError('Please log in to save flashcards');
+      return;
+    }
+
+    if (!subject.trim()) {
+      setError('Please enter a subject before saving');
+      return;
+    }
+
+    setIsSaving(true);
+    setError(null);
+    
+    try {
+      console.log('=== SAVING FLASHCARDS DEBUG ===');
+      console.log('User:', user);
+      console.log('Subject:', subject);
+      console.log('Flashcard data:', flashcardData);
+      console.log('Flashcards to save:', flashcardData.flashcards);
+      
+
+      
+      // Save flashcards to localStorage
+      console.log('Calling saveFlashcardsToLocalStorage...');
+      const result = saveFlashcardsToLocalStorage(user.id, subject, flashcardData.flashcards);
+      console.log('Save result:', result);
+      
+      console.log('Flashcards saved successfully!');
+      
+      // Navigate to collection page with success state
+      router.push('/flashcards-collection?showBackButton=true');
+    } catch (error) {
+      console.error('=== ERROR DETAILS ===');
+      console.error('Error type:', typeof error);
+      console.error('Error message:', error instanceof Error ? error.message : 'No message');
+      console.error('Error details:', error);
+      setError(`Failed to save flashcards: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -319,15 +372,21 @@ export default function FlashcardsPage() {
               Generate new flashcards
             </button>
             <button
-              onClick={() => {
-                // TODO: Implement save to collection functionality with database
-                console.log('Save flashcards to collection');
-              }}
-              className="bg-white hover:translate-y-1 hover:shadow-sm active:translate-y-1 active:shadow-sm text-[#A5E2F6] font-bold rounded-xl px-8 py-3 text-lg shadow-lg border-2 border-[#A5E2F6] transition cursor-pointer w-full"
+              onClick={saveToCollection}
+              disabled={isSaving || !user}
+              className={`bg-white hover:translate-y-1 hover:shadow-sm active:translate-y-1 active:shadow-sm text-[#A5E2F6] font-bold rounded-xl px-8 py-3 text-lg shadow-lg border-2 border-[#A5E2F6] transition cursor-pointer w-full ${
+                isSaving || !user ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
               style={{boxShadow: '0 4px 0 #8BD4F0'}}
             >
-              Save in collection
+              {isSaving ? 'Saving...' : !user ? 'Login to save' : 'Save in collection'}
             </button>
+            {!user && (
+              <p className="text-sm text-gray-600 text-center mt-2">
+                You need to be logged in to save flashcards
+              </p>
+            )}
+
           </div>
         </div>
       )}
