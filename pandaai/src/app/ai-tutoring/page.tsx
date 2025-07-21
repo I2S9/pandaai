@@ -60,7 +60,7 @@ export default function AiTutoringPage() {
             <div className="flex-1 text-center md:text-left">
               <h2 className="text-2xl md:text-3xl font-bold mb-2">Your Panda Coach</h2>
               <p className="text-lg md:text-xl text-gray-700 max-w-xl">
-                Your wise panda companion helps you master new skills with confidence. Whether you're tackling a tough subject, building better habits, or exploring new knowledge, I'll guide you with patience and encouragement. Let's make learning rewarding!
+                Your wise panda companion helps you master new skills with confidence. Whether you&apos;re tackling a tough subject, building better habits, or exploring new knowledge, I&apos;ll guide you with patience and encouragement. Let&apos;s make learning rewarding!
               </p>
             </div>
           </div>
