@@ -249,18 +249,22 @@ export default function QuizGeneratorPage() {
         </>
       ) : (
         <div className="w-full max-w-4xl">
-          {/* Quiz Title and Controls */}
-          <div className="flex justify-between items-center mb-8">
+          {/* Quiz Title - Centered */}
+          <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-gray-900">{quizData.quiz.title}</h2>
-            {showResults && (
+          </div>
+
+          {/* Controls - Right aligned */}
+          {showResults && (
+            <div className="flex justify-end mb-8">
               <button
                 onClick={() => setShowExplanations(!showExplanations)}
                 className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-4 py-2 rounded-lg transition-colors"
               >
                 {showExplanations ? 'Hide Explanations' : 'Show Explanations'}
               </button>
-            )}
-          </div>
+            </div>
+          )}
 
           {/* Quiz Info Badges - Centered */}
           <div className="flex justify-center gap-4 mb-8">
