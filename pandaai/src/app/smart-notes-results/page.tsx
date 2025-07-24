@@ -1,21 +1,27 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-
-
+import { useRouter } from 'next/navigation';
 
 export default function SmartNotesResultsPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [transcription, setTranscription] = useState('');
   const [selectedOutputType, setSelectedOutputType] = useState('smart_notes');
   const [generatedNotes, setGeneratedNotes] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState('');
 
+  // Get transcription from URL parameters safely
+  const getTranscriptionFromURL = () => {
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('transcription');
+    }
+    return null;
+  };
+
   useEffect(() => {
     // Récupérer la transcription depuis les paramètres d'URL
-    const transcriptionParam = searchParams.get('transcription');
+    const transcriptionParam = getTranscriptionFromURL();
     console.log('Transcription param:', transcriptionParam);
     if (transcriptionParam) {
       const decodedTranscription = decodeURIComponent(transcriptionParam);
@@ -24,7 +30,7 @@ export default function SmartNotesResultsPage() {
     } else {
       console.log('No transcription parameter found');
     }
-  }, [searchParams]);
+  }, []);
 
   const generateNotes = async () => {
     if (!transcription.trim()) {
