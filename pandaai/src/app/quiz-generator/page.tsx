@@ -254,9 +254,9 @@ export default function QuizGeneratorPage() {
             <h2 className="text-3xl font-bold text-gray-900">{quizData.quiz.title}</h2>
           </div>
 
-          {/* Controls - Right aligned */}
+          {/* Controls - Centered */}
           {showResults && (
-            <div className="flex justify-end mb-8">
+            <div className="flex justify-center mb-8">
               <button
                 onClick={() => setShowExplanations(!showExplanations)}
                 className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-4 py-2 rounded-lg transition-colors"

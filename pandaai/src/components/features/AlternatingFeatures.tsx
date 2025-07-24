@@ -62,7 +62,7 @@ export default function AlternatingFeatures() {
             <p className="text-lg text-gray-700 max-w-xl">{feature.description}</p>
           </div>
           {/* Image */}
-          <div className={`flex-1 flex items-center ${
+          <div className={`flex-1 flex items-center justify-center max-w-2xl mx-auto ${
             idx === 0 ? 'justify-end' : 
             idx === 1 ? 'justify-start' : 
             idx === 2 ? 'justify-end' : // flashcards - aligner à droite
@@ -71,17 +71,11 @@ export default function AlternatingFeatures() {
             <Image
               src={feature.image}
               alt={feature.alt}
-              width={idx === 0 ? 440 : idx === 1 ? 220 : idx === 2 ? 280 : 220}
-              height={idx === 0 ? 260 : idx === 1 ? 180 : idx === 2 ? 180 : 140}
-              style={
-                idx === 0
-                  ? { maxWidth: '440px', width: '100%', height: 'auto' }
-                  : idx === 1
-                  ? { maxWidth: '220px', width: '100%', height: 'auto' }
-                  : idx === 2
-                  ? { maxWidth: '280px', width: '100%', height: 'auto' } // flashcards - plus grand
-                  : { maxWidth: '220px', width: '100%', height: 'auto' } // track progress
-              }
+              width={600}
+              height={400}
+              className="w-full h-auto rounded-lg shadow-lg"
+              style={{ maxWidth: '600px' }}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           </div>
         </div>
