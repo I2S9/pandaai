@@ -73,7 +73,7 @@ async function extractPDFText(file: File): Promise<string> {
 
     // Second try: OCR extraction for image-based PDFs
     try {
-      const ocrText = await extractTextWithOCR(buffer);
+      const ocrText = await extractTextWithOCR();
       if (ocrText && ocrText.trim().length > 50) {
         console.log('Text extracted successfully with OCR');
         return cleanExtractedText(ocrText);
@@ -92,13 +92,13 @@ async function extractPDFText(file: File): Promise<string> {
   }
 }
 
-async function extractTextWithOCR(buffer: Buffer): Promise<string> {
+async function extractTextWithOCR(): Promise<string> {
   try {
     console.log('Attempting OCR extraction with Tesseract...');
     
     // Import the OCR module
     const { extractTextFromPDFImages } = await import('../../../lib/ocr');
-    return await extractTextFromPDFImages(buffer);
+    return await extractTextFromPDFImages();
     
   } catch (error) {
     console.error('OCR extraction error:', error);
