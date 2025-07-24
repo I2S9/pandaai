@@ -28,7 +28,6 @@ export default function ExamTakePage() {
 
   // Questions will be loaded from the generated exam
   const [questions, setQuestions] = useState<Question[]>([]);
-  const [examData, setExamData] = useState<{ content?: { questions: any[] } } | null>(null);
 
   // Load exam data from localStorage
   useEffect(() => {
@@ -37,11 +36,10 @@ export default function ExamTakePage() {
     
     if (generatedExam) {
       const exam = JSON.parse(generatedExam);
-      setExamData(exam);
       
       // Convert exam content to questions format
       if (exam.content && exam.content.questions) {
-        const formattedQuestions = exam.content.questions.map((q: any, index: number) => ({
+        const formattedQuestions = exam.content.questions.map((q: { question: string; options?: string[]; correctAnswer?: number; explanation?: string }, index: number) => ({
           id: index + 1,
           question: q.question,
           options: q.options || [],

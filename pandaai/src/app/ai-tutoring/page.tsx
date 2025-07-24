@@ -1,9 +1,8 @@
-export const metadata = {
-  title: 'AI Tutoring',
-};
+"use client";
 
 import Image from 'next/image';
 import Footer from '../../components/layout/Footer';
+import { useRouter } from 'next/navigation';
 
 const steps = [
   {
@@ -44,6 +43,12 @@ const steps = [
 ];
 
 export default function AiTutoringPage() {
+  const router = useRouter();
+
+  const handleGetStarted = () => {
+    router.push('/panda-coach');
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <main className="flex-1 bg-white">
@@ -60,7 +65,7 @@ export default function AiTutoringPage() {
             <div className="flex-1 text-center md:text-left">
               <h2 className="text-2xl md:text-3xl font-bold mb-2">Your Panda Coach</h2>
               <p className="text-lg md:text-xl text-gray-700 max-w-xl">
-                Your wise panda companion helps you master new skills with confidence. Whether you're tackling a tough subject, building better habits, or exploring new knowledge, I'll guide you with patience and encouragement. Let's make learning rewarding!
+                Your wise panda companion helps you master new skills with confidence. Whether you&apos;re tackling a tough subject, building better habits, or exploring new knowledge, I&apos;ll guide you with patience and encouragement. Let&apos;s make learning rewarding!
               </p>
             </div>
           </div>
@@ -148,9 +153,16 @@ export default function AiTutoringPage() {
         </section>
 
         {/* Ready to start section */}
-        <section className="w-full flex flex-col items-center py-16">
+        <section className="w-full flex flex-col items-center py-8">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Ready to start your personalized tutoring?</h2>
-          <Image src="/ready-tutoring.png" alt="Ready to start your personalized tutoring?" width={420} height={420} className="object-contain mb-0" />
+          <Image src="/ready-tutoring.png" alt="Ready to start your personalized tutoring?" width={420} height={420} className="object-contain mb-6" />
+          <button
+            onClick={handleGetStarted}
+            className="bg-[#DDBDFD] hover:translate-y-1 hover:shadow-sm active:translate-y-1 active:shadow-sm text-white font-bold rounded-3xl px-16 py-5 text-xl shadow-lg border-2 border-[#DDBDFD] transition cursor-pointer"
+            style={{boxShadow: '0 6px 0 #C4A5E8'}}
+          >
+            Get Started
+          </button>
         </section>
       </main>
       <Footer />
