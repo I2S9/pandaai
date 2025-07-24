@@ -16,13 +16,14 @@ export default function SpaceRepetitionPage() {
       <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-8">Spaced repetition</h1>
       
       {/* Image */}
-      <div className="mb-16">
+      <div className="mb-16 max-w-2xl mx-auto">
         <Image 
           src="/spaced-repetition-section.png" 
           alt="Spaced repetition illustration" 
-          width={400} 
-          height={300}
-          className="w-auto h-auto max-w-full"
+          width={600} 
+          height={400}
+          className="w-full h-auto rounded-lg shadow-lg"
+          style={{ maxWidth: '600px' }}
         />
       </div>
 

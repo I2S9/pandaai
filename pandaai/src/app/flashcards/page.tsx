@@ -158,13 +158,14 @@ export default function FlashcardsPage() {
       {!flashcardData ? (
         <>
           {/* Image */}
-          <div className="mb-16">
+          <div className="mb-16 max-w-2xl mx-auto">
             <Image 
               src="/flashcards-section.png" 
               alt="Flashcards illustration" 
-              width={400} 
-              height={300}
-              className="w-auto h-auto max-w-full"
+              width={600} 
+              height={400}
+              className="w-full h-auto rounded-lg shadow-lg"
+              style={{ maxWidth: '600px' }}
             />
           </div>
 
