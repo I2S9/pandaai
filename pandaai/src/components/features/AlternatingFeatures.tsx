@@ -71,10 +71,10 @@ export default function AlternatingFeatures() {
             <Image
               src={feature.image}
               alt={feature.alt}
-              width={400}
-              height={300}
+              width={idx === 0 ? 400 : 300}
+              height={idx === 0 ? 300 : 200}
               className="w-full h-auto rounded-lg"
-              style={{ maxWidth: '400px' }}
+              style={{ maxWidth: idx === 0 ? '400px' : '300px' }}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           </div>
