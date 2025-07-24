@@ -128,11 +128,21 @@ export const updateFlashcardReview = async (
 ) => {
   const supabase = createClient();
   
+  // First get the current review count
+  const { data: currentData, error: fetchError } = await supabase
+    .from('flashcards')
+    .select('review_count')
+    .eq('id', flashcardId)
+    .single();
+
+  if (fetchError) throw fetchError;
+
+  // Then update with incremented value
   const { data, error } = await supabase
     .from('flashcards')
     .update({
       last_reviewed: new Date().toISOString(),
-      review_count: supabase.sql`review_count + 1`,
+      review_count: (currentData?.review_count || 0) + 1,
       difficulty_level: difficultyLevel,
     })
     .eq('id', flashcardId)

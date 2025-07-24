@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Calculator from '../../../components/Calculator';
 import PdfViewer from '../../../components/PdfViewer';
@@ -28,6 +28,48 @@ export default function ExamTakePage() {
 
   // Questions will be loaded from the generated exam
   const [questions, setQuestions] = useState<Question[]>([]);
+
+  const handleSubmitExam = useCallback(async () => {
+    try {
+      setExamCompleted(true);
+      
+      // Calculate time taken
+      const timeTaken = 60 * 60 - timeLeft; // Total time minus remaining time
+      
+      // Prepare exam submission data
+      const submissionData = {
+        answers,
+        timeTaken,
+        questions: questions.map(q => ({
+          id: q.id,
+          question: q.question,
+          type: q.options && q.options.length > 0 ? 'quiz' : 'exercise',
+          correctAnswer: q.correctAnswer,
+          options: q.options || [],
+          explanation: q.explanation || "Answer explanation"
+        }))
+      };
+
+      const response = await fetch('/api/submit-exam', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(submissionData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Exam results:', data);
+        // Store results in localStorage or state management for the results page
+        localStorage.setItem('examResults', JSON.stringify(data.result));
+      } else {
+        console.error('Failed to submit exam');
+      }
+    } catch (error) {
+      console.error('Error submitting exam:', error);
+    }
+  }, [answers, timeLeft, questions]);
 
   // Load exam data from localStorage
   useEffect(() => {
@@ -75,7 +117,7 @@ export default function ExamTakePage() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [handleSubmitExam]);
 
   const formatTime = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);
@@ -99,48 +141,6 @@ export default function ExamTakePage() {
   const handlePreviousQuestion = () => {
     if (currentQuestion > 0) {
       setCurrentQuestion(currentQuestion - 1);
-    }
-  };
-
-  const handleSubmitExam = async () => {
-    try {
-      setExamCompleted(true);
-      
-      // Calculate time taken
-      const timeTaken = 60 * 60 - timeLeft; // Total time minus remaining time
-      
-      // Prepare exam submission data
-      const submissionData = {
-        answers,
-        timeTaken,
-        questions: questions.map(q => ({
-          id: q.id,
-          question: q.question,
-          type: q.options && q.options.length > 0 ? 'quiz' : 'exercise',
-          correctAnswer: q.correctAnswer,
-          options: q.options || [],
-          explanation: q.explanation || "Answer explanation"
-        }))
-      };
-
-      const response = await fetch('/api/submit-exam', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(submissionData),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Exam results:', data);
-        // Store results in localStorage or state management for the results page
-        localStorage.setItem('examResults', JSON.stringify(data.result));
-      } else {
-        console.error('Failed to submit exam');
-      }
-    } catch (error) {
-      console.error('Error submitting exam:', error);
     }
   };
 
