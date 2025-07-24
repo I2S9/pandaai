@@ -1,12 +1,11 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '../../../../hooks/useAuth';
 import { getUserFlashcardsFromLocalStorage, LocalFlashcard } from '../../../../lib/localStorageService';
 
 export default function PracticeFlashcardsPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const { user } = useAuth();
   const [flashcards, setFlashcards] = useState<LocalFlashcard[]>([]);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
@@ -14,11 +13,20 @@ export default function PracticeFlashcardsPage() {
   const [loading, setLoading] = useState(true);
   const [topic, setTopic] = useState('');
 
+  // Get topic from URL parameters safely
+  const getTopicFromURL = () => {
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('topic');
+    }
+    return null;
+  };
+
   useEffect(() => {
     const loadFlashcards = () => {
       if (!user) return;
       
-      const topicParam = searchParams.get('topic');
+      const topicParam = getTopicFromURL();
       if (!topicParam) {
         router.push('/flashcards-collection');
         return;
@@ -38,12 +46,12 @@ export default function PracticeFlashcardsPage() {
     };
 
     loadFlashcards();
-  }, [user]);
+  }, [user, router]);
 
-  // Handle searchParams changes separately
+  // Handle URL changes
   useEffect(() => {
     if (user) {
-      const topicParam = searchParams.get('topic');
+      const topicParam = getTopicFromURL();
       if (topicParam && topicParam !== topic) {
         setTopic(topicParam);
         const userFlashcards = getUserFlashcardsFromLocalStorage(user.id);
@@ -53,7 +61,7 @@ export default function PracticeFlashcardsPage() {
         setIsFlipped(false);
       }
     }
-  }, [searchParams, user, topic]);
+  }, [user, topic]);
 
   const handleCardClick = () => {
     setIsFlipped(!isFlipped);
