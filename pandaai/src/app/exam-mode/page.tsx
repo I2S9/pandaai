@@ -63,7 +63,7 @@ export default function ExamModePage() {
           alt="Exam mode illustration" 
           width={600} 
           height={400}
-          className="w-full h-auto rounded-lg shadow-lg"
+          className="w-full h-auto rounded-lg"
           style={{ maxWidth: '600px' }}
         />
       </div>
