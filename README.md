@@ -23,3 +23,26 @@
 - **React Query** – Data fetching and caching  
 - **Open Router (Deepseek API)** – AI-driven quiz, flashcard, and summary generation  
 - **Vercel** – Continuous deployment and edge functions
+
+## Getting Started
+
+Clone the repository and go to the current directory
+
+```bash
+git clone git@github.com:I2S9/pandaai.git
+cd pandaai
+```
+Install dependencies
+```bash
+npm install
+```
+
+Create a `.env` file and add your [OpenRouter](https://openrouter.ai/) API key
+```bash
+OPENROUTER_API_KEY=your-api-key
+```
+
+Start the development server
+```bash
+npm run dev
+```
